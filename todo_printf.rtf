@@ -1,0 +1,144 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww14960\viewh27080\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 Points techniques :\
+\
+1) nombre d'args non definis/connus \'e0 l'avance => 
+\b fonction variadique (stdarg)
+\b0 \
+https://fr.wikipedia.org/wiki/Fonction_variadique\
+https://en.wikipedia.org/wiki/Stdarg.h\
+\
+2) plein de formats et d'operations\
+3) gros dispatcher, bonne structure\
+- Pour faire le dispatcher, utiliser une grosse structure, contenant des pointeurs sur fonctions comme dans l'exo de piscine d10/ex09 (ex06 dans mon cas) & looper sur ce tableau\
+\
+4) precision\
+	%.5s => inclus que 5 caracteres de l'argument de type string\
+	%.5d, 42 => retourne 00042\
+\
+\
+3 et 4)\
+=> tableau de structures\
+Du genre:\
+\
+typedef struct	s_flags\
+\{\
+	char *flag;\
+	<signature of the function> // 
+\i sth in void* to fit every possibilities?
+\i0 \
+\}			t_flags;\
+\
+Note:\
+- declaration d'un pointeur sur fonction, depend bcp du nb + types des parametres et du type de sortie\
+void	(*fc_ptr)(type1, type2);\
+- assignation\
+fc_ptr = &function_name;\
+- utilisation\
+*fc_ptr(arg1, arg2);\
+\
+\
+\
+Note sur stdarg:\
+Promotion/conversion/cast de types:\
+char -> int (4 bytes)\
+short (2 bytes) -> int\
+float (4 bytes) -> double (8 bytes)\
+\pard\pardeftab720\sl300\partightenfactor0
+\cf0 \
+src: https://www.geeksforgeeks.org/data-types-in-c/\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+\
+La string qui contient les % est appell\'e9e "format string". Elle contient des characteres normaux copi\'e9s normalement vers la sortie, des directives/conversions qui utilisent un ou plusieurs des arguments qui suivent cette string.\
+Le type du/des arguments fourni doit correspondre \'e0 ce que la fonction de conversion attend (
+\i after type promotion?
+\i0 ).\
+\
+Liste des operateurs pouvant apparaitre apres % qu'il faut que l'on prenne en compte (dans leur ordre d'apparition):\
+\
+A) les 
+\b flags
+\b0  suivants :\
+`#` differentes regles suivant la conversion qui suit, mais globalement il s'agit de conserver les 0\
+`0` zero padding\
+`-` negative field width flag\
+`+` mettre un `+` devant un nb produit par une "signed conversion"\
+` ` leave a blank before a positive nb produced by a signed conversion\
+\
+B) optional decimal digit string specifying a 
+\b minimum field width
+\b0 . Si la valeur convertie fait moins que cette valeur, ajouter des espaces sur la gauche (ou la droite si utilise le flag `-` ?)\
+\
+C) optional 
+\b precision
+\b0 , in the form of a . followed by an optional digit string. If no digit string, some defaults depending on the conversion flag provided\
+\
+D) 
+\b Size
+\b0 \
+h\
+hh\
+l\
+ll\
+-> different comportement suivant la conversion de type fournie\
+\
+G) flag de 
+\b conversion
+\b0 \
+`
+\b c
+\b0 ` un int est converti en unsigned char, le resultat est affich\'e9\
+`
+\b s
+\b0 ` un char * est copi\'e9/affich\'e9\
+`
+\b p
+\b0 ` void * affich\'e9 en hexadecimal\
+\
+`diouxX` avec les flags hh, h, l, ll\
+=> int (or appropriate variant, cad ce que les flags de size donnent) convertit en \
+	signed decimal (d and i - 2 letters here is useless, but included anyway for symetry with scanf) => signed decimal = signed int\
+	unsigned octal (o) => unsigned int en base 8 ?\
+	unsigned decimal (u) => unsigned int ?\
+	unsigned hexadecimal (x and X) => unsigned int?\
+		note: for x, `abcdef` are used; for x, `ABCDEF` are used for the letters\
+\
+\
+
+\b f
+\b0  takes a double argument, which gets rounded and converted to decimal notation (`xx.xx`). Avec des variations pour le nb de chiffres apres le `.` suivant la specification de longeur\
+flags de longeur:\
+l  double\
+L  long double\
+\
+\
+\
+
+\b => pour les cas ind\'e9finis, faire en fonction de ce qui le plus simple et le plus coh\'e9rent
+\b0 \
+\
+\
+
+\b Attention \'e0 la gestion de l'unicode
+\b0 \
+\
+
+\i Les caracteres speciaux sont g\'e9r\'e9s par write :)
+\i0 \
+\
+Concernant les cas ind\'e9finis, il semblerait que la moulinette ne les teste pas.\
+src:\
+https://forum.intra.42.fr/topics/622/messages/last (dernier message)\
++ slack #ft_printf recherche avec "undefined"\
+\
+Des tests en python:\
+https://forum.intra.42.fr/topics/18453/messages/last}
