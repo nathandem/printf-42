@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/15 10:42:34 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/15 19:03:20 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,25 @@
 # include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "libft.h"
 
-// typedefs
-// at least: the typedef making the match btw the conversion and the function
+typedef struct	s_directive
+{
+	int				hash;
+	int				zero;
+	int				neg_sign;
+	int				pos_sign;
+	int				space;
+	int				min_width;
+	int				precision;
+	int				size;
+	char			type;
+}				t_dir;
 
-// global variables, to be placed in another file?
+
 
 // prototypes
+
+void			ft_printf(const char *str, ...);
 
 #endif

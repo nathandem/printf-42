@@ -27,11 +27,18 @@ int			main(void)
 	printf(":%10.3s:\n", "hello you");
 	// spaces to make the min field width are on the right 
 	printf(":%-15s:\n", "Hello, world!");
+	// funky tests
+	printf("%s\n", "%s"); // %s should be able to print `%s`
 
 	// p CONVERSION - HEXADECIMAL
 	// note: `%p` seems only to work on pointers, char pointers even
 	printf(":%p:\n", str);
 	printf(":%p:\n", int_arr);
+
+	// invalid tests, or rather valid strings but with only the 1st type
+	// of the directive considered
+	printf("%cs\n", 'c');
+	printf("%sc\n", "hello world!");
 
 
 	/* ------------------------------------------------------------- */
@@ -53,18 +60,22 @@ int			main(void)
 	printf(":%0d:\n", 2);
 	printf(":%03i:\n", 2);
 
-
-
-	// hh, h, l, ll flags takes signed inputs with di
+	// h, hh, l, ll flags takes signed inputs with di
+	printf("-> h, hh, l, ll flags\n");
 	// h takes a short
 	printf("flag h :%hd:\n", (short)2);
 	// hh takes a (signed) char
 	printf("flag hh :%hhd:\n", (char)2);
 	// l takes a long
-	printf("flag l :%ld:\n", (long)2);
+	printf("flag l :%5ld:\n", (long)2);
 	// ll takes a long long
 	printf("flag ll :%lld:\n", (long long)2);
 
+	// invalid cases, because excessive nb of size flags. Errors in comment
+	printf("%lld\n", (long)12); // -Wformat warning, beucause `ll` expects a long long
+	printf("%llld\n", (long)14); // printf warns that the conversion `l` doesn't exists
+	printf("%hld", (long)15); // invalid conversion specifier
+	// -> in short, I believe it's fine to only accepts valid inputs (e.g. not the 3 above)
 
 	// o CONVERSION (unsigned octal)
 	printf("17 in octal is :%o:\n", (unsigned int)17);
@@ -111,6 +122,7 @@ int			main(void)
 	// for `xX` conversions, no 0 res have the string `0x` (or `0X`) prepended to it
 	printf("%#x\n", 14);
 	printf("%#X\n", 14);
+	printf("%##X\n", 14); // >1 # == 1 #
 
 	// `0` flag
 	printf("-> 0 flag\n");
@@ -124,7 +136,7 @@ int			main(void)
 	printf("%03p\n", str); // undefined behavor, what to do about it?
 	printf("%03d\n", 123);
 	printf("%03o\n", 14);
-	printf("%03u\n", 14);
+	printf("%003u\n", 14); // note: placing one or more 0 doesn't make a difference
 	printf("%03x\n", 14);
 	printf("%03X\n", 14);
 	// note: if a precision is given to a numeric conversion (diouxX), 0 flag ignored 
@@ -135,12 +147,14 @@ int			main(void)
 	// note: `-` and `0` flags are incompatible, `0` is ignored, only `-` applies
 	printf("-> - flag\n");
 	printf(":%-5d:\n", 14);
+	printf(":%--5d:\n", 14); // putting more `-` than one as the same effect as one
 
 	// ` ` (space)
 	// effect: leave a blank before a postive nb created by a signed conversion
 	// applies to: di and f
 	printf("-> ` ` flag\n");
-	printf(":% d:\n", 14);
+	printf(":% s:\n", "hello world!"); // no effect on strings
+	printf(":%  d:\n", 14);
 	printf(":% o:\n", 14);
 	printf(":% x:\n", 14);
 
@@ -153,13 +167,16 @@ int			main(void)
 	// note: if both ` ` and `+` are present, only `+` applies
 	printf(":% +d:\n", 14);
 
+	// invalid case: only a flag. Don't handle that, throws an error
+	printf("%+\n");
+
 
 	/* ------------------------------------------------------------- */
 
 	// special case: %%
 	printf("\njust a %%\n");
 
-	// also, don't forget the special characters
+	// also, don't forget the special characters -> handled by write
 	printf(":\t:");
 
 
@@ -170,15 +187,16 @@ int			main(void)
 	// special characters are actually handled by write, so it's not complex
 	printf("My\tfavorite\nnumbers are \t%d and \t%f.\n", 3, 3.14);
 	// some emojis here -> must handle utf-8
-	printf("   😎  \n");
+	printf("héhé  😎  \n");
 	printf("%#05.5x\n", 13);
+	printf("%5.5x\n", 13);
 	printf("%#+05.3d\n", 13);
 	printf("%+#05.3d\n", 13); // note: seems like no ordering required for #0- + flags
 	// excessive combinations like the following must work
 	printf("%#+ ++ ## 05.3d\n", 13);
 	printf("%#+l ++ ## 05.3d\n", 13);
 
-	// error cases
+	// error cases, these under all segfault but don't fail at compilation
 	// not as many stdarg than % in the format string
 	printf("no stdarg provided %6.7"); // -> segfault
 	// no conversion flag provided
