@@ -55,6 +55,21 @@ int			main(void)
 	// set a minimum field width of 3
 	printf(":%3d:\n", 2);
 	printf(":%3i:\n", 2);
+	printf(":%03i:\n", 2);
+	printf(":%0# 3i:\n", 2);
+
+	// precision behavior with diouxX
+	// precisions have no effect on digits bigger than this precision
+	printf("%.3d\n", 12345);
+	// precisions add `0` in front of digits if they don't make it up
+	// to the precision
+	printf("%.3d\n", 12);
+	// nothing special with just `.d` or `.0d` for most values... 
+	printf("%.d\n", 123);
+	printf("%.0d\n", 123);
+	// ... except if the value is 0
+	printf("%.d\n", 0);
+	printf("%.0d\n", 0);
 
 	// set a minimum field width of 3 but fill with 0 instead of spaces
 	printf(":%0d:\n", 2);
@@ -103,7 +118,7 @@ int			main(void)
 
 	// FLOATS
 	printf(":%f:\n", 15.3);
-
+g ll :%lld:\n
 	// min field width applies to the entire float (whole numbers + '.' + decimal nbs)
 	// precision only concerns the decimal part of the number
 	printf(":%7.3f:\n", 15.3);
@@ -173,11 +188,24 @@ int			main(void)
 
 	/* ------------------------------------------------------------- */
 
+	// cases close to be correct but not, no type/conversion flag
+	// in those case, everything comprised btw `%` and the last characters
+	// that could have been valid is skiped, and printf resumes printing
+	// at the first character which is clearly not part of the string
+	printf("%# !s\n");
+	printf("%!\n");
+	printf("%-5.5\n");
+	printf("%-5.5y\n");
+	printf("%55y\n");
+
+	// tricky case of the `*`
+	printf("%.*f\n", 3, 3.14159265);
+
 	// special case: %%
 	printf("\njust a %%\n");
 
 	// also, don't forget the special characters -> handled by write
-	printf(":\t:");
+	printf(":\t:\n");
 
 
 	/* ------------------------------------------------------------- */

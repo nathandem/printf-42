@@ -5,7 +5,32 @@
 \margl1440\margr1440\vieww11100\viewh27080\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs28 \cf0 Points techniques\
+\f0\fs28 \cf0 Questions :\
+- peut-on arreter de print si une directive n'est pas valide ?\
+	ex: printf("%# !s\\n");  printf("%-5.5\\n");   printf("!s");\
+  ou faut-il skip les morceaux non valides et print ce qui est valide apres ?\
+
+\i \
+For now, ignore the invalid part and resume printing afterwards.
+\i0 \
+\
+\
+- faut-il g\'e9rer le cas de l'ast\'e9risk (*) pour la largeur et la pr\'e9cision ? comme indiqu\'e9 dans la doc de Microsoft\
+	https://docs.microsoft.com/fr-fr/cpp/c-runtime-library/format-specification-syntax-printf-and-wprintf-functions\
+\
+
+\i For now, don't handle them.
+\i0 \
+\
+\
+- Retourner nb charact\'e8res affich\'e9s ?\
+\
+\
+- Can the `0` flag be anywhere in the flag area? Not just before the min width field?\
+\
+\
+\
+Points techniques\
 \
 1) nombre d'args non definis/connus \'e0 l'avance => 
 \b fonction variadique (stdarg)
@@ -58,7 +83,7 @@ src: https://www.geeksforgeeks.org/data-types-in-c/\
 \
 \
 
-\b Full compilation steps for a simple test file:\
+\b Compilation steps for printf_test file\
 
 \b0 - Compile libftprintf.a\
 1) prepare the object files making the lib (no need for a the -L and -l because it's not a main, just a lib)\
@@ -69,6 +94,15 @@ ar -rc src/libftprintf.a src/ft_printf.o\
 - Use the library with the file\
 clang -Wall -Wextra -Werror -I src/libft -I src -Lsrc/libft -lft  -Lsrc -lftprintf -o tests/basic_test tests/basic_test.c\
 (we can optionally turn the c test file into an object before using it for compilation)\
+\
+\
+\
+
+\b Compilation command for the directive_parser
+\b0 \
+clang -I ../src/libft -I ../src -L../src/libft -lft ../src/directive_parsers.c test_helpers.c  directive_parser_test.c && ./a.out\
+\
+\
 \
 \
 La string qui contient les % est appell\'e9e "format string". Elle contient des characteres normaux copi\'e9s normalement vers la sortie, des directives qui utilisent un ou plusieurs des arguments qui suivent cette string.\
@@ -140,7 +174,7 @@ L  long double\
 \
 \
 
-\b => pour les cas ind\'e9finis, faire en fonction de ce qui le plus simple et le plus coh\'e9rent
+\b => pour les cas ind\'e9finis, faire en fonction de ce qui est le plus simple et le plus coh\'e9rent
 \b0 \
 \
 \
