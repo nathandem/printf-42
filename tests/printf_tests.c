@@ -1,26 +1,29 @@
 #include <stdio.h>
+#include <unistd.h>
 
 int			main(void)
 {
 	char		*str;
 	int			*int_arr;
 
-	// Conversions without no flag (but min width field and precision)
+	// Conversions with no flag (but min width field and precision)
 	printf("--- csp ---\n");
 	
 	// c CONVERSION - CHARS (promoted to int by stdarg)
 	printf(":%c:\n", 'c');
-	// min width field: applies
-	printf(":%5c:\n", 'c');
+	// test behavior of the flags
+	printf("%#c\n", 'a');
+	printf("%05c\n", 'b');
+	printf(":%5c:\n", 'd');
 	// precision: possible but doesn't make sense
-	printf(":%.c:\n", 'c');
+	printf(":%.c:\n", 'e');
 
 	// s CONVERSION - STRING
 	// min field width behaves as expected
 	// precision however cuts all the letters after the precision nb
 	printf(":%s:\n", "hello you");
 	// min field width of 10
-	printf(":%10s:\n", "hello you");
+	printf(":%-010s:\n", "hello you");
 	// max 10 characters
 	printf(":%.10s:\n", "hello you");
 	// min width of 10, max 3 characters
@@ -31,9 +34,9 @@ int			main(void)
 	printf("%s\n", "%s"); // %s should be able to print `%s`
 
 	// p CONVERSION - HEXADECIMAL
-	// note: `%p` seems only to work on pointers, char pointers even
 	printf(":%p:\n", str);
-	printf(":%p:\n", int_arr);
+	printf(":%-10p:\n", 'a');
+	printf(":%.10p:\n", 8);
 
 	// invalid tests, or rather valid strings but with only the 1st type
 	// of the directive considered
@@ -49,12 +52,13 @@ int			main(void)
 
 	// d (or i) CONVERSIONS (decimal)
 	// regular output without modifier
-	printf(":%d:\n", 2);
 	printf(":%i:\n", 2);
+	printf(":%.0x:\n", 0); // nothing returned
+	printf("%.0d\n", 2);
 
 	// set a minimum field width of 3
-	printf(":%3d:\n", 2);
-	printf(":%3i:\n", 2);
+	printf(":% 3.d:\n", 2);
+	printf(":%05i:\n", 2);
 	printf(":%03i:\n", 2);
 	printf(":%0# 3i:\n", 2);
 
@@ -95,9 +99,10 @@ int			main(void)
 	// o CONVERSION (unsigned octal)
 	printf("17 in octal is :%o:\n", (unsigned int)17);
 
-	// u CONVERSION (unsigned decimal)
+	// u CONVERSION (unsigned decimal int)
 	// WHAT IS THE POINT OF u APART FROM HAVING UNSIGNED RES WITH H, HH, L, LL FLAGS?
 	printf("17 with the conversion u is: %u\n", 17);
+	printf("%u\n", (unsigned int)-17);  // this brilliant idea overflows...
 
 	// x CONVERSION (hexa)
 	printf("15 with the conversion x is: %x\n", 15);
@@ -112,16 +117,6 @@ int			main(void)
 	printf("%hhu\n", (unsigned char)17);
 	printf("%lu\n", (unsigned long)17);
 	printf("%llu\n", (unsigned long long)17);
-
-
-	/* ------------------------------------------------------------- */
-
-	// FLOATS
-	printf(":%f:\n", 15.3);
-g ll :%lld:\n
-	// min field width applies to the entire float (whole numbers + '.' + decimal nbs)
-	// precision only concerns the decimal part of the number
-	printf(":%7.3f:\n", 15.3);
 
 
 	/* ---------------------------------------------------------- */
@@ -162,13 +157,14 @@ g ll :%lld:\n
 	// note: `-` and `0` flags are incompatible, `0` is ignored, only `-` applies
 	printf("-> - flag\n");
 	printf(":%-5d:\n", 14);
+	printf(":%-20p:\n", 1);
 	printf(":%--5d:\n", 14); // putting more `-` than one as the same effect as one
 
 	// ` ` (space)
 	// effect: leave a blank before a postive nb created by a signed conversion
 	// applies to: di and f
 	printf("-> ` ` flag\n");
-	printf(":% s:\n", "hello world!"); // no effect on strings
+	printf(":% 5d:\n", 14);
 	printf(":%  d:\n", 14);
 	printf(":% o:\n", 14);
 	printf(":% x:\n", 14);
@@ -214,7 +210,7 @@ g ll :%lld:\n
 	printf("\n--- complex tests to handle ---\n");
 	// special characters are actually handled by write, so it's not complex
 	printf("My\tfavorite\nnumbers are \t%d and \t%f.\n", 3, 3.14);
-	// some emojis here -> must handle utf-8
+	// some emojis here -> can handle utf-8 if I want to
 	printf("héhé  😎  \n");
 	printf("%#05.5x\n", 13);
 	printf("%5.5x\n", 13);
@@ -226,9 +222,26 @@ g ll :%lld:\n
 
 	// error cases, these under all segfault but don't fail at compilation
 	// not as many stdarg than % in the format string
-	printf("no stdarg provided %6.7"); // -> segfault
+	// printf("no stdarg provided %6.7"); // -> segfault
 	// no conversion flag provided
-	printf("no conversion flag provided %6.7 s the top", 14); // -> segfault
+	// printf("no conversion flag provided %6.7 s the top", 14); // -> segfault
+
+	/* ------------------------------------------------------------- */
+
+	// FLOATS
+	printf("\n--- floats ---\n");
+	printf(":%f:\n", 15.3);
+	printf("%f\n", 0.1 + 0.2);
+	printf(":%f:\n", 15.55555555555555555555555555555555555555555555555555555);
+	printf(":%8f:\n", 2.12);
+	printf(":%.3f:\n", 2.1235);  // 2.1235 returns 2.123 but 2.1236 gives 2.124
+	// min field width applies to the entire float (whole numbers + '.' + decimal nbs)
+	// precision only concerns the decimal part of the number
+	printf(":%7.3f:\n", 15.3);
+
+	// let's test some flags
+	printf(":%.2f:\n", 0.0);
+
 
 	return (0);
 }

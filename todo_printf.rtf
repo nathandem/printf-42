@@ -1,32 +1,44 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww11100\viewh27080\viewkind0
+\margl1440\margr1440\vieww9360\viewh16580\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs28 \cf0 Questions :\
 - peut-on arreter de print si une directive n'est pas valide ?\
 	ex: printf("%# !s\\n");  printf("%-5.5\\n");   printf("!s");\
-  ou faut-il skip les morceaux non valides et print ce qui est valide apres ?\
-
+  ou faut-il skip les morceaux non valides et print ce qui est valide apres ?
 \i \
 For now, ignore the invalid part and resume printing afterwards.
 \i0 \
 \
-\
-- faut-il g\'e9rer le cas de l'ast\'e9risk (*) pour la largeur et la pr\'e9cision ? comme indiqu\'e9 dans la doc de Microsoft\
-	https://docs.microsoft.com/fr-fr/cpp/c-runtime-library/format-specification-syntax-printf-and-wprintf-functions\
-\
+- Retourner nb charact\'e8res affich\'e9s ?\
 
-\i For now, don't handle them.
+\i Not difficult, just return the counter `i` of the ft_printf function.
 \i0 \
 \
 \
-- Retourner nb charact\'e8res affich\'e9s ?\
-\
-\
 - Can the `0` flag be anywhere in the flag area? Not just before the min width field?\
+
+\i I think yes, but is it?
+\i0 \
+\
+\
+\
+\
+\
+\
+\
+\
+Order of things:\
+- find out how to deal with the different flags and make tests for this. All in isolation mode (one directive at the time), like I did for the parsing.\
+- then, create the parsing system with stdarg, make some test with it for simple element (not integrate with the parser and the handlers)\
+- lastly integrate, the directive parser and the handlers with the stdarg machine\
+\
+\
+\
+\
+\
 \
 \
 \
@@ -39,14 +51,10 @@ https://fr.wikipedia.org/wiki/Fonction_variadique\
 https://en.wikipedia.org/wiki/Stdarg.h\
 \
 2) plein de formats et d'operations\
+=> parser et handlers\
 \
 3) gros dispatcher, bonne structure\
 - Pour faire le dispatcher, utiliser une grosse structure, contenant des pointeurs sur fonctions comme dans l'exo de piscine d10/ex09 (ex06 dans mon cas) & looper sur ce tableau\
-\
-4) precision\
-	%.5s => inclus que 5 caracteres de l'argument de type string\
-	%.5d, 42 => retourne 00042\
-\
 \
 3 et 4)\
 => tableau de structures\
@@ -130,7 +138,7 @@ C) optional
 \b0 , in the form of a . followed by an optional digit string. If no digit string, some defaults depending on the conversion flag provided\
 \
 
-\b attention \'e0 la diff\'e9rence \ul width\ulnone  et \ul precision\ulnone  > pour les chiffres et le reste
+\b attention \'e0 la diff\'e9rence \ul width\ulnone  et \ul precision\ulnone  > pour les chiffres et le reste. printf d'un gars en correction dead \'e0 cause de \'e7a.
 \b0 \
 \
 D) 
@@ -178,9 +186,7 @@ L  long double\
 \b0 \
 \
 \
-
-\b Attention \'e0 la gestion de l'unicode
-\b0 \
+Attention \'e0 la gestion de l'unicode. Optionnel\
 \
 
 \i Les caracteres speciaux sont g\'e9r\'e9s par write :)

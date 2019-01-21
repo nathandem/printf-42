@@ -1,0 +1,113 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid1\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww10860\viewh27080\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 Common behaviors for all or no:
+\b0 \
+- `
+\b #
+\b0 ` : NO but only 3 types concerned but it's straightforward.\
+Add a prefix for o, x and X and ignore the rest. Simple to handle in these functions. Respectively add `0`, `0x` or `0X` to these flags.\
+=> before min width field\
+\
+- `
+\b 0
+\b0 `: NO, only for numbers (diouxX) and float\
+If used in conjunction with a min width field in the directive, fill the left space created with the right alignment of the result with 0s instead of spaces. If both `0` and `-` appear in the directive, `0` is ignored.\
+	Note specific to numbers (diouxX) but 
+\i not float
+\i0 : if a precision is also provided, ignore this flag. So make the check that it is not the case before applying this flag.\
+=> order: suppose that we make the calculation for min width field before\
+\
+- `
+\b -
+\b0 `: YES, same for all types.\
+Align the result on the left. Apply the min width field potential spaces on the right side, prepend these spaces instead of appending them.\
+Note: if both `-` and `0` are found in the directive, `0` is ignored\
+=> order: after width\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 \uc0\u8259 	
+\b ` `
+\b0 : NO, only for signed numeric values (\ul dif\ulnone ) but easy\
+Implementation: add a space before the value (include this space in the length of the result before adding spaces for the min width field)\
+Note: if both ` ` and `+` are present in the directive, only `+` is considered\
+- `
+\b +
+\b0 `: like ` `, but instead of prepending the signed value with a space, prepend them with a `+`\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 => order: before min width field\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+- Min 
+\b width
+\b0  field: YES ALL\
+Effect: add n spaces (or 0 if `0` flag and proper type) on the left (or right, if `-` flag) so that the resulting output has the nb of characters given in the min width field\
+=> order: after size and type conversions and precision\
+\
+- 
+\b Precision
+\b0 : NO > individual for c, s, p (how to make it really?) and f but can be grouped for diouxX\
+\
+For floats, by default a precision of 6. The value of the last digit depends on the rounding of the one just after (if there's one). Keep in mind that the division is made using a based-2 value.\
+	Note: %.0f == %.f means include no fractional numbers.\
+\
+
+\i Common behavior for numbers:
+\i0 \
+Min nb of digits to show (no truncation as opposed to strings), if less than that 0s are appended on the left to make up the nb of the precision (note: if min width field > precision the printed stuff is made bigger). Note: an empty precision is like no precision at all. Note2: printf(":%.0d:\\n", 0); retuns nothing!\
+\
+\
+- 
+\b size
+\b0 :	 YES, but 2 groups.\
+\
+One group for diouxX: h, hh, l, ll\
+	Implementation: instead of asking for the type of the `type` directive parameter, ask for the type that I come with after having figured out what to do with the size flag\
+	h: signed short\
+	hh: signed char\
+	l: (signed) long\
+	ll: (signed) long long\
+=> order: after having looked at the `type` but before, fetching the data from the argument\
+\
+One group for f\
+	l: double (8 bytes or 64 bits)\
+	L: long double (10 bytes, or 80 bits)\
+\
+\
+- 
+\b type
+\b0 :\
+	Invidual functions:\
+		c: prints a single byte characters => ft_putchar\
+		s: prints every character of the string until `\\0` is met (or the precision) => ft_putstr\
+		p: display memory address in hexadecimal (like %#x) => to be created\
+\
+	These might even be grouped... => ft_itoa?\
+		d and i: prints a signed decimal integer\
+		o: prints an unsigned octal\
+		u: prints an unsigned decimal integer\
+		x: prints hexadecimal int (using "abcdef")\
+		X: prints hexadecimal int (using "ABCDEF")\
+\
+	f: prints a float (stdarg promotes the float type to a double type) Floats work according to the IEEE 754 standard\
+\
+\
+\
+\
+\
+
+\i \ul Some theory on floats:
+\i0 \ulnone \
+- allow not to store leading or trailing zeros for very large numbers\
+- 2 parts on a floting point number: the significand (here: 52 + 1 bit for the sign) and the exponent (here: 11). As a result, the smallest number is 2.2x10^-308 and the largest 1.8x106308\
+=> underneath the floats are represented as binary powers for number on the left side of the dot (like 1*2^4 or 0*2^5) and as fractions for numbers on the right side of the dot (like 1*1/2, 1*1/4 or 1*1/8).\
+https://floating-point-gui.de/formats/fp/\
+- rounding problems happen with those fractions, because some element can't be represented with based 2 fractions\
+https://floating-point-gui.de/formats/binary/\
+}
