@@ -40,8 +40,7 @@ Note: if both ` ` and `+` are present in the directive, only `+` is considered\
 - `
 \b +
 \b0 `: like ` `, but instead of prepending the signed value with a space, prepend them with a `+`\
-\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 => order: before min width field\
+=> order: before min width field\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 - Min 
@@ -86,14 +85,16 @@ One group for f\
 	Invidual functions:\
 		c: prints a single byte characters => ft_putchar\
 		s: prints every character of the string until `\\0` is met (or the precision) => ft_putstr\
-		p: display memory address in hexadecimal (like %#x) => to be created\
-\
-	These might even be grouped... => ft_itoa?\
-		d and i: prints a signed decimal integer\
-		o: prints an unsigned octal\
-		u: prints an unsigned decimal integer\
-		x: prints hexadecimal int (using "abcdef")\
-		X: prints hexadecimal int (using "ABCDEF")\
+		p: display memory address in hexadecimal == %#x 
+\i Is `x` enough to take care of it? (attention to the case with a flag..)\
+
+\i0 \
+	These might even be grouped... \
+		d and i: prints a signed \ul decimal\ulnone  integer => char *int_to_str(int)\
+		o: prints an unsigned \ul octal\ulnone  int\
+		u: prints an unsigned \ul decimal\ulnone  integer => char *int_to_str(int)\
+		x: prints \ul hexadecimal\ulnone  int (using "abcdef")\
+		X: prints \ul hexadecimal\ulnone  int (using "ABCDEF")\
 \
 	f: prints a float (stdarg promotes the float type to a double type) Floats work according to the IEEE 754 standard\
 \
@@ -101,8 +102,9 @@ One group for f\
 \
 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\i \ul Some theory on floats:
+\i \cf0 \ul \ulc0 Some theory on floats:
 \i0 \ulnone \
 - allow not to store leading or trailing zeros for very large numbers\
 - 2 parts on a floting point number: the significand (here: 52 + 1 bit for the sign) and the exponent (here: 11). As a result, the smallest number is 2.2x10^-308 and the largest 1.8x106308\

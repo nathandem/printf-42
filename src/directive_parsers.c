@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:58:09 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/20 18:56:18 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/22 14:22:45 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ t_dir				*parse_dir(const char *str)
 	}
 
 	// handle size flags
-	// possible values: h, hh, l, ll, L
+	// possible values: hh, h, l, ll, L
+	// respective meaning: signed char, signed short, signed long,
+	// signed long long and long double
 	// respectively stored in the structure as 1, 2, 3, 4, 5
 	if (str[i] == 'h' || str[i] == 'l' || str[i] == 'L')
 	{
@@ -118,10 +120,10 @@ t_dir				*parse_dir(const char *str)
 			if (str[i + 1] == 'h')
 			{
 				i++;
-				cur_dir->size = 2;
+				cur_dir->size = 1;
 			}
 			else
-				cur_dir->size = 1;
+				cur_dir->size = 2;
 		}
 
 		else if (str[i] == 'l')
