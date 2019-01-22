@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/22 12:26:20 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/22 20:11:25 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,12 @@
 ** `space` is a flag, possible value: 0 or 1
 ** `min_width` refers to the min width the res that have, possible value: >=0
 ** `precision` refers to precision, possible value: >=0
-** `size` refers to the conversion of type, possible value:
-**        `hh` == 1, `h` == 2, `l` == 3, `ll` == 4, `L` == 5
+** `size` refers to the conversion of type, possible values:
+**		1: `hh` (char, 1 byte)
+** 		2: `h` (short, 2 bytes)
+**		3: `l` (long, 4 bytes)
+**		4: `ll` (long long, 8 bytes)
+**		5: `L` (long double, 12 bytes)
 ** `type` refers to conversion flag, always a char.
 **        e.g. `s` for strings, `o` for octals, ...
 **	      '.' means the directive is invalid

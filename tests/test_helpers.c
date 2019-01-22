@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 17:08:07 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/20 18:41:08 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/22 19:09:10 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,20 @@ void				display_t_dir(t_dir *cur_dir)
 	printf("type: %c\n\n", cur_dir->type);
 
 	free(cur_dir);
+}
+
+
+/*
+** This function could work in case the function I'm testing retuns a string,
+** yet `printf` prints the resulting string on stdout and retuns an int
+** representing the number of characters it has output on stdout.
+** Not so useful then...
+*/
+
+void				assert_equal(char *test, char *ref)
+{
+	if (!(ft_strcmp(test, ref)))
+		printf("KO - %s =/= %s\n", test, ref);
+	else
+		printf("OK - %s == %s\n", test, ref);
 }
