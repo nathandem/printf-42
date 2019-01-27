@@ -31,12 +31,12 @@
 ** `space` is a flag, possible value: 0 or 1
 ** `min_width` refers to the min width the res that have, possible value: >=0
 ** `precision` refers to precision, possible value: >=0
-** `size` refers to the conversion of type, possible values:
-**		1: `hh` (char, 1 byte)
-** 		2: `h` (short, 2 bytes)
-**		3: `l` (long, 4 bytes)
-**		4: `ll` (long long, 8 bytes)
-**		5: `L` (long double, 12 bytes)
+** `size` refers to the conversion of types, possible values:
+**		0: `hh` (char, 1 byte)
+** 		1: `h` (short, 2 bytes)
+**		2: `l` (long, 4 bytes)
+**		3: `ll` (long long, 8 bytes)
+**		4: `L` (long double, 12 bytes)
 ** `type` refers to conversion flag, always a char.
 **        e.g. `s` for strings, `o` for octals, ...
 **	      '.' means the directive is invalid
@@ -45,6 +45,11 @@
 ** because it doesn't belong to the directive form, it's rather the length of
 ** of the directive in the string, the number of characters it takes.
 */
+
+enum			e_size
+{
+	hh, h, l, ll, L
+};
 
 typedef struct	s_directive
 {
@@ -55,7 +60,7 @@ typedef struct	s_directive
 	int				space;
 	int				min_width;
 	int				precision;
-	int				size;
+	enum e_size		size;
 	char			type;
 	int				len;
 }				t_dir;

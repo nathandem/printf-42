@@ -37,8 +37,38 @@ Order of things:\
 \
 \
 \
+Note:\
+- passing arguments by reference is a smarter to spare a return of a function (that includes `i` counters)\
+\
+- structuring `ft_printf` like below seems a good thing to do:\
+
+\i int				ft_printf(const char *format, ...)\
+\{\
+	va_list	args;\
+	int		ret;\
+\
+	va_start(args, format);\
+	ret = ft_inner_printf(format, &args, 0);\
+	va_end(args);\
+	return (ret);\
+\}\
+
+\i0 \
+Gestion du pointer:\
+https://github.com/malikfassi/42/blob/master/ALGO/PRINTF/ft_printf_hex.c\
+\
+Pour la gestion du %%:\
+- dans le bloc conditionnel dans lequel on entre apres avoir rentr\'e9 un %, avancer de un, si le charactere sur place est un %, l'afficher et continuer\
 \
 \
+\
+Peut-etre partir des sizes, plutt que des conversions pour construire les fonctions de gestion des conversions.\
+\
+Idee: pour faire en sorte que le traitements des flags (sauf #, ` `, + et precision) et de la min width field soit possible de maniere generique, faire en sorte que les conversions retournent des chaines de characteres.\
+\
+\
+Ressource for utf-8 (very last step, if done one day):\
+https://github.com/nmei-42/42-printf/blob/master/printf_utf_utils.c\
 \
 \
 \

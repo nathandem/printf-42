@@ -33,7 +33,7 @@ t_dir				*initialize_a_dir(void)
 	cur_dir->space = -1;
 	cur_dir->min_width = -1;
 	cur_dir->precision = -1;
-	cur_dir->size = -1;
+	cur_dir->size = NONE;  // or 0 if none doesn't work
 	cur_dir->type = '.';
 	cur_dir->len = 1;
 	return (cur_dir);
