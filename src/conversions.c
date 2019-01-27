@@ -6,11 +6,12 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 10:47:38 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/22 20:41:24 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/27 18:50:17 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stdlib.h"
+#include "ft_printf.h"
 
 /*
 ** `get_base_len` mesures the length of an int by iteratively chopping its
@@ -33,7 +34,7 @@ int				get_base_len(long long n, int base)
 ** int. The number is accessed as a base 10 by default.
 **
 ** To allow the function to handle all size flags/all possible inputs safely,
-** i.e. `hh` for char (1 byte), `h` for short (2 bytes), `l` for long (4 bytes)
+** i.e. `hh` for char (1 byte), `h` for short (2 bytes), `l` for long (8 bytes)
 ** and `ll` for long long (8 bytes), the function uses the largest of them,
 ** the `long long`.
 ** Note: to comply with the function signature, smaller types should be cast
@@ -41,7 +42,111 @@ int				get_base_len(long long n, int base)
 ** This applies to `octal_to_str` and `hex_to_str` as well.
 */
 
-char				*decimal_to_str(long long n)
+// this one is working well :)
+char				*signed_char_decimal_to_str(char n)
+{
+	char				*number;
+	int					len;
+	unsigned char		n_abs;
+
+	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
+	n_abs = (n < 0) ? (unsigned char)(-n) : (unsigned char)n;
+	if (!(number = (char*)malloc(len + 1)))
+		exit(1);
+	number[len--] = 0;
+	if (n < 0)
+		number[0] = '-';
+	if (n == 0)
+		number[0] = '0';
+	while (n_abs)
+	{
+		number[len--] = (n_abs % 10) + 48;
+		n_abs /= 10;
+	}
+	return (number);
+}
+
+// this one works just fine as well :) 
+char				*signed_short_decimal_to_str(short n)
+{
+	char				*number;
+	int					len;
+	unsigned short		n_abs;
+
+	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
+	n_abs = (n < 0) ? (unsigned short)(-n) : (unsigned short)n;
+	if (!(number = (char*)malloc(len + 1)))
+		exit(1);
+	number[len--] = 0;
+	if (n < 0)
+		number[0] = '-';
+	if (n == 0)
+		number[0] = '0';
+	while (n_abs)
+	{
+		number[len--] = (n_abs % 10) + 48;
+		n_abs /= 10;
+	}
+	return (number);
+}
+
+// this one is working well :)
+char				*signed_int_decimal_to_str(int n)
+{
+	char				*number;
+	int					len;
+	unsigned int		n_abs;
+
+	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
+	n_abs = (n < 0) ? (unsigned int)(-n) : (unsigned int)n;
+	if (!(number = (char*)malloc(len + 1)))
+		exit(1);
+	number[len--] = 0;
+	if (n < 0)
+		number[0] = '-';
+	if (n == 0)
+		number[0] = '0';
+	while (n_abs)
+	{
+		number[len--] = (n_abs % 10) + 48;
+		n_abs /= 10;
+	}
+	return (number);
+}
+
+// eventhough it's quite possible that long as the same nb of bytes
+// than an int, it's also possible that it's not the case
+// So go for 2 functions so that the compiler can choose what values it
+// allocates for a long, that way no prob if `long` is longer than `int`
+// src:
+// https://software.intel.com/en-us/articles/size-of-long-integer-type-on-different-architecture-and-os
+// https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/64bitPorting/transition/transition.html
+char				*signed_long_decimal_to_str(long n)
+{
+	char				*number;
+	int					len;
+	unsigned long		n_abs;
+
+	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
+	n_abs = (n < 0) ? (unsigned long)(-n) : (unsigned long)n;
+	if (!(number = (char*)malloc(len + 1)))
+		exit(1);
+	number[len--] = 0;
+	if (n < 0)
+		number[0] = '-';
+	if (n == 0)
+		number[0] = '0';
+	while (n_abs)
+	{
+		number[len--] = (n_abs % 10) + 48;
+		n_abs /= 10;
+	}
+	return (number);
+}
+
+// In the case of my architecture (macOS 64bits), `long long` and `long`
+// are both 64bits long.
+char				*signed_long_long_decimal_to_str(long long n)
 {
 	char				*number;
 	int					len;
@@ -63,6 +168,69 @@ char				*decimal_to_str(long long n)
 	}
 	return (number);
 }
+
+
+// UNSIGNED DECIMALS
+
+char				*unsigned_int_decimal_to_str(unsigned int n)
+{
+	char				*number;
+	int					len;
+
+	len = get_base_len(n, 10);
+	if (!(number = (char*)malloc(len + 1)))
+		exit(1);
+	number[len--] = 0;
+	(n == 0) ? number[0] = '0' : 0;
+	while (n)
+	{
+		number[len--] = (n % 10) + 48;
+		n /= 10;
+	}
+	return (number);
+}
+
+char				*unsigned_long_decimal_to_str(unsigned long n)
+{
+	char				*number;
+	int					len;
+
+	len = get_base_len(n, 10);
+	if (!(number = (char*)malloc(len + 1)))
+		exit(1);
+	number[len--] = 0;
+	(n == 0) ? number[0] = '0' : 0;
+	while (n)
+	{
+		number[len--] = (n % 10) + 48;
+		n /= 10;
+	}
+	return (number);
+}
+
+char				*unsigned_decimals_to_str(unsigned long long n, char size)
+{
+	char				*number;
+	int					len;
+
+	(size == 0) ? n = (unsigned int)n : 0;
+	(size == 1) ? n = (unsigned char)n : 0;
+	(size == 2) ? n = (unsigned short)n : 0;
+	(size == 3) ? n = (unsigned long)n : 0;
+	len = get_base_len(n, 10);
+	if (!(number = (char*)malloc(len + 1)))
+		exit(1);
+	number[len--] = 0;
+	(n == 0) ? number[0] = '0' : 0;
+	while (n)
+	{
+		number[len--] = (n % 10) + 48;
+		n /= 10;
+	}
+	return (number);
+}
+
+
 
 /*
 ** `octal_to_str` converts a number stored in an integer variant
@@ -96,29 +264,7 @@ char				*octal_to_str(long long n)
 	return (number);
 }
 
-// MAKE THIS WORK WELL (FOR SIGNED VALUES PASSED AND ALL SIZES)
-// THEN ADAPT TO OTHERS
 
-char				*unsigned_decimal_to_str(unsigned long long n, int size)
-{
-	char				*number;
-	int					len;
-
-	(size == 1) ? n = (unsigned char)n : 0;
-	(size == 2) ? n = (unsigned short)n : 0;
-	(size == 3) ? n = (unsigned long)n : 0;
-	len = get_base_len(n, 10);
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	(n == 0) ? number[0] = '0' : 0;
-	while (n)
-	{
-		number[len--] = (n % 10) + 48;
-		n /= 10;
-	}
-	return (number);
-}
 
 char				*unsigned_octal_to_str(unsigned long long n, int size)
 {

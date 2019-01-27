@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/22 20:11:25 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/27 16:42:45 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 ** `size` refers to the conversion of types, possible values:
 **		0: `hh` (char, 1 byte)
 ** 		1: `h` (short, 2 bytes)
-**		2: `l` (long, 4 bytes)
+**		2: `l` (long, 8 bytes) Note: on some architectures, it's 4 bytes only
 **		3: `ll` (long long, 8 bytes)
 **		4: `L` (long double, 12 bytes)
 ** `type` refers to conversion flag, always a char.
@@ -48,7 +48,7 @@
 
 enum			e_size
 {
-	hh, h, l, ll, L
+	NONE, hh, h, l, ll, L
 };
 
 typedef struct	s_directive
