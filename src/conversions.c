@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 10:47:38 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/27 18:50:17 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/28 18:13:43 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 #include "ft_printf.h"
 
 /*
-** `get_base_len` mesures the length of an int by iteratively chopping its
-** units by dividing by its base until the int is worth 0.
+** `get_signed_base_len` mesures the length of an int by iteratively chopping
+** its units by dividing by its base until the int is worth 0.
 */
 
-int				get_base_len(long long n, int base)
+int					get_signed_base_len(long long n, int base)
 {
-	int				len;
+	int					len;
 
 	len = 1;
 	while (n /= base)
@@ -29,131 +29,85 @@ int				get_base_len(long long n, int base)
 }
 
 /*
-** `int_to_str` converts an integer into a string (i.e. an array of
-** chars). Edge cases covered here: `0`, asymmetry between min/max for signed
-** int. The number is accessed as a base 10 by default.
-**
-** To allow the function to handle all size flags/all possible inputs safely,
-** i.e. `hh` for char (1 byte), `h` for short (2 bytes), `l` for long (8 bytes)
-** and `ll` for long long (8 bytes), the function uses the largest of them,
-** the `long long`.
-** Note: to comply with the function signature, smaller types should be cast
-** in `long long` prior.
-** This applies to `octal_to_str` and `hex_to_str` as well.
+** `get_unsigned_base_len` works the same as `get_signed_base_len` except that
+** it takes the number to measure as an unsigned long long. This makes no
+** difference in all cases, except for 20 figures numbers which can't hold in
+** in a signed long long.
 */
 
-// this one is working well :)
-char				*signed_char_decimal_to_str(char n)
+int					get_unsigned_base_len(unsigned long long n, int base)
 {
-	char				*number;
 	int					len;
-	unsigned char		n_abs;
 
-	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
-	n_abs = (n < 0) ? (unsigned char)(-n) : (unsigned char)n;
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	if (n < 0)
-		number[0] = '-';
-	if (n == 0)
-		number[0] = '0';
-	while (n_abs)
-	{
-		number[len--] = (n_abs % 10) + 48;
-		n_abs /= 10;
-	}
-	return (number);
+	len = 1;
+	while (n /= base)
+		len++;
+	return (len);
 }
 
-// this one works just fine as well :) 
-char				*signed_short_decimal_to_str(short n)
-{
-	char				*number;
-	int					len;
-	unsigned short		n_abs;
+/*
+** `get_n_ab` "virtually" cast a signed long long int into whatever
+** size flag (see `signed_dec_to_str` doc for the correspondances).
+** Though the number comes in a long long and is returned in a long long,
+** the value stored in these 64bits go have the limits of its type.
+** For example, if the size indicates that the type of the number is an int,
+** the min and max values of the number will be -(2^32) and (2^32)-1, not
+** -(2^64) and (2^64)-1.
+*/
 
-	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
-	n_abs = (n < 0) ? (unsigned short)(-n) : (unsigned short)n;
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	if (n < 0)
-		number[0] = '-';
-	if (n == 0)
-		number[0] = '0';
-	while (n_abs)
-	{
-		number[len--] = (n_abs % 10) + 48;
-		n_abs /= 10;
-	}
-	return (number);
+unsigned long long	get_n_abs(long long n, char size)
+{
+	unsigned long long	n_abs;
+
+	if (size == 0)
+		n_abs = (n < 0) ? (t_ui)(-n) : (t_ui)n;
+	if (size == 1)
+		n_abs = (n < 0) ? (t_uc)(-n) : (t_uc)n;
+	if (size == 2)
+		n_abs = (n < 0) ? (t_us)(-n) : (t_us)n;
+	if (size == 3)
+		n_abs = (n < 0) ? (t_ul)(-n) : (t_ul)n;
+	if (size == 4)
+		n_abs = (n < 0) ? (t_ull)(-n) : (t_ull)n;
+	return (n_abs);
 }
 
-// this one is working well :)
-char				*signed_int_decimal_to_str(int n)
-{
-	char				*number;
-	int					len;
-	unsigned int		n_abs;
+/*
+** `signed_dec_to_str` converts an base-10 signed number stored in an integer,
+** or an integer variant (signed char, signed short, signed long or signed
+** long long) into a string (i.e. an array of chars, ASCII encoded).
+** Edge cases covered here: `0`, asymmetry between min/max.
+**
+** Parameters:
+** - `n` (signed long long): number to return into a string.
+**   This value may be "virtually" cast into a small type, if the `size` passed
+**   refer to a type smaller than an signed long long.
+** - `size` (char): integer variant in which to consider the number
+**   Possible values:	0: integer
+**						1: char
+**						2: short
+**						3: long
+**						4: long long
+**   It is important to flow this type indication because the limits of these
+**   types varies in relation to their length. The more bits a type has bigger
+**   its min and max values.
+**
+** Notes:
+** - to handle all size flags/all possible inputs safely, `n` type is the
+**   uses the largest of them, the `long long`.
+** - numbers of bits of each type is platfom specific. On my 64bits macOS, chars
+**   are 1 byte long, shorts 2 bytes, integers 4 bytes, long bytes, so are
+**   long long.
+*/
 
-	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
-	n_abs = (n < 0) ? (unsigned int)(-n) : (unsigned int)n;
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	if (n < 0)
-		number[0] = '-';
-	if (n == 0)
-		number[0] = '0';
-	while (n_abs)
-	{
-		number[len--] = (n_abs % 10) + 48;
-		n_abs /= 10;
-	}
-	return (number);
-}
-
-// eventhough it's quite possible that long as the same nb of bytes
-// than an int, it's also possible that it's not the case
-// So go for 2 functions so that the compiler can choose what values it
-// allocates for a long, that way no prob if `long` is longer than `int`
-// src:
-// https://software.intel.com/en-us/articles/size-of-long-integer-type-on-different-architecture-and-os
-// https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/64bitPorting/transition/transition.html
-char				*signed_long_decimal_to_str(long n)
-{
-	char				*number;
-	int					len;
-	unsigned long		n_abs;
-
-	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
-	n_abs = (n < 0) ? (unsigned long)(-n) : (unsigned long)n;
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	if (n < 0)
-		number[0] = '-';
-	if (n == 0)
-		number[0] = '0';
-	while (n_abs)
-	{
-		number[len--] = (n_abs % 10) + 48;
-		n_abs /= 10;
-	}
-	return (number);
-}
-
-// In the case of my architecture (macOS 64bits), `long long` and `long`
-// are both 64bits long.
-char				*signed_long_long_decimal_to_str(long long n)
+char				*signed_dec_to_str(long long n, char size)
 {
 	char				*number;
 	int					len;
 	unsigned long long	n_abs;
 
-	len = (n < 0) ? get_base_len(n, 10) + 1 : get_base_len(n, 10);
-	n_abs = (n < 0) ? (unsigned long long)(-n) : (unsigned long long)n;
+	len = (n < 0) ? get_signed_base_len(n, 10) + 1 : get_signed_base_len(n, 10);
+	n_abs = get_n_abs(n, size);
 	if (!(number = (char*)malloc(len + 1)))
 		exit(1);
 	number[len--] = 0;
@@ -169,46 +123,60 @@ char				*signed_long_long_decimal_to_str(long long n)
 	return (number);
 }
 
+/*
+** `get_hexa_letter` gives the letter which corresponds to the base-10 value.
+** The parameter `maj` tells whether the letter should in capital or not.
+** For example: 9 -> 9  |  10 -> a  |  15 -> f
+*/
 
-// UNSIGNED DECIMALS
-
-char				*unsigned_int_decimal_to_str(unsigned int n)
+char				get_hexa_letter(int hex_modulo, char maj)
 {
-	char				*number;
-	int					len;
+	char				letter;
 
-	len = get_base_len(n, 10);
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	(n == 0) ? number[0] = '0' : 0;
-	while (n)
+	if (hex_modulo > 9)
 	{
-		number[len--] = (n % 10) + 48;
-		n /= 10;
+		if (maj)
+			letter = hex_modulo + 55;
+		else
+			letter = hex_modulo + 87;
 	}
-	return (number);
+	else
+		letter = hex_modulo + 48;
+	return (letter);
 }
 
-char				*unsigned_long_decimal_to_str(unsigned long n)
-{
-	char				*number;
-	int					len;
+/*
+** `unsigned_to_str` converts an number stored in integer variants
+** (i.e. from an unsigned char to an unsigned long long) into a string
+** (i.e. an array of ASCII-encoded chars). The number can be passed as a
+** base 10, base 8 or 16.
+** 
+** Parameters:
+** - `n` (unsigned long long): number to return into a string.
+**   This value is cast into a smaller type if the `size` (3rd arg) indicates to
+**   so that limits/overflows are kept specific to each type.
+** - `base` (char): the base in which the number is to be converted into.
+**   Possible choices 10 (C default base), 8, 16
+** - `size` (char): integer variant
+**   Possible choices: 	0: int, 4 bytes
+**						1: char, 1 byte
+**						2: short, 2 bytes
+**						3: long, 8 bytes
+**						4: long long, 4 bytes
+**   Note: the number of bytes assigned to each integer types varies depending
+**   the architecture of the machine.
+** - `cap` (char): whether or not the letters of hexadecimal values should be
+**   capitalized
+**
+** Notes:
+** - eventhough numbers are stored in base 2 in the bits of the interger,
+**   C provides us with base-10 values. That's why we convert the values from
+**   base 10 to base whatever other base the number is in, not from base 2.
+** - as pointer addresses are actually just hexadecimal numbers (`%p`),
+**   they can also be converted using `unsigned_to_str`.
+*/
 
-	len = get_base_len(n, 10);
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	(n == 0) ? number[0] = '0' : 0;
-	while (n)
-	{
-		number[len--] = (n % 10) + 48;
-		n /= 10;
-	}
-	return (number);
-}
-
-char				*unsigned_decimals_to_str(unsigned long long n, char size)
+char				*unsigned_to_str(t_ull n, char base, char size, char cap)
 {
 	char				*number;
 	int					len;
@@ -217,107 +185,19 @@ char				*unsigned_decimals_to_str(unsigned long long n, char size)
 	(size == 1) ? n = (unsigned char)n : 0;
 	(size == 2) ? n = (unsigned short)n : 0;
 	(size == 3) ? n = (unsigned long)n : 0;
-	len = get_base_len(n, 10);
+	(size == 4) ? n = (unsigned long long)n : 0;
+	len = get_unsigned_base_len(n, base);
 	if (!(number = (char*)malloc(len + 1)))
 		exit(1);
 	number[len--] = 0;
 	(n == 0) ? number[0] = '0' : 0;
 	while (n)
 	{
-		number[len--] = (n % 10) + 48;
-		n /= 10;
-	}
-	return (number);
-}
-
-
-
-/*
-** `octal_to_str` converts a number stored in an integer variant
-** (i.e. from a signed/unsigned char to a signed/unsigned long long) into a
-** string (i.e. an array of ASCII-encoded chars).
-** Note: eventhough numbers are stored in base 2 in the bits of the interger,
-** C provides us with base-10 values. That's why we convert the values from
-** base 10 to base 8 here, not from base 2 to base 8.
-*/
-
-char				*octal_to_str(long long n)
-{
-	char				*number;
-	int					len;
-	unsigned long long	n_abs;
-
-	len = (n < 0) ? get_base_len(n, 8) + 1 : get_base_len(n, 8);
-	n_abs = (n < 0) ? (unsigned long long)(-n) : (unsigned long long)n;
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	if (n < 0)
-		number[0] = '-';
-	if (n == 0)
-		number[0] = '0';
-	while (n_abs)
-	{
-		number[len--] = (n_abs % 8) + 48;
-		n_abs /= 8;
-	}
-	return (number);
-}
-
-
-
-char				*unsigned_octal_to_str(unsigned long long n, int size)
-{
-	char				*number;
-	int					len;
-
-	(size == 1) ? n = (unsigned char)n : 0;
-	(size == 2) ? n = (unsigned short)n : 0;
-	(size == 3) ? n = (unsigned long)n : 0;
-	len = get_base_len(n, 8);
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	(n == 0) ? number[0] = '0' : 0;
-	while (n)
-	{
-		number[len--] = (n % 8) + 48;
-		n /= 8;
-	}
-	return (number);
-}
-
-/*
-** `hex_to_str` works as `octal_to_str` and `decimal_to_str`, except that
-** it has a `maj` flag which tells whether or not the letters representing
-** the values above 9 to 15 should be capitalize or not.
-*/
-
-char				*hex_to_str(long long n, char maj)
-{
-	char				*number;
-	int					len;
-	unsigned long long	n_abs;
-	unsigned char		character;
-
-	len = (n < 0) ? get_base_len(n, 16) + 1 : get_base_len(n, 16);
-	n_abs = (n < 0) ? (unsigned long long)(-n) : (unsigned long long)n;
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	if (n < 0)
-		number[0] = '-';
-	if (n == 0)
-		number[0] = '0';
-	while (n_abs)
-	{
-		character = n_abs % 16;
-		if (character < 10)
-			character = character + 48;
+		if (base == 16)
+			number[len--] = get_hexa_letter(n % 16, cap);
 		else
-			character = (maj) ? character + 55 : character + 87;
-		number[len--] = character;
-		n_abs /= 16;
+			number[len--] = (n % base) + 48;
+		n /= base;
 	}
 	return (number);
 }

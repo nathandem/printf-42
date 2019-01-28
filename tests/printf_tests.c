@@ -239,8 +239,9 @@ int			main(void)
 	// precision only concerns the decimal part of the number
 	printf(":%7.3f:\n", 15.3);
 
-	// let's test some flags
 	printf(":%.2f:\n", 0.0);
+	printf(":%.f:\n", 0.0);
+	printf(":%.0f:\n", 0.0);
 
 
 	return (0);

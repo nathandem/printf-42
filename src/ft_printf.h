@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/27 16:42:45 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/28 17:14:45 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@
 ** of the directive in the string, the number of characters it takes.
 */
 
+typedef unsigned char		t_uc;
+typedef unsigned short		t_us;
+typedef unsigned int		t_ui;
+typedef unsigned long		t_ul;
+typedef unsigned long long	t_ull;
+
 enum			e_size
 {
 	NONE, hh, h, l, ll, L
@@ -64,10 +70,6 @@ typedef struct	s_directive
 	char			type;
 	int				len;
 }				t_dir;
-
-
-
-// prototypes
 
 void			ft_printf(const char *str, ...);
 
