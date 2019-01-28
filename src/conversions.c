@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 10:47:38 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/28 18:13:43 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/28 19:59:52 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,6 @@ char				get_hexa_letter(int hex_modulo, char maj)
 **						2: short, 2 bytes
 **						3: long, 8 bytes
 **						4: long long, 4 bytes
-**   Note: the number of bytes assigned to each integer types varies depending
-**   the architecture of the machine.
 ** - `cap` (char): whether or not the letters of hexadecimal values should be
 **   capitalized
 **
@@ -174,6 +172,8 @@ char				get_hexa_letter(int hex_modulo, char maj)
 **   base 10 to base whatever other base the number is in, not from base 2.
 ** - as pointer addresses are actually just hexadecimal numbers (`%p`),
 **   they can also be converted using `unsigned_to_str`.
+** - the number of bytes assigned to each integer types varies depending
+**   the architecture of the machine.
 */
 
 char				*unsigned_to_str(t_ull n, char base, char size, char cap)
@@ -200,4 +200,71 @@ char				*unsigned_to_str(t_ull n, char base, char size, char cap)
 		n /= base;
 	}
 	return (number);
+}
+
+
+
+// sandbox for floats
+// size `l`: double (ignored, because by default, it's a double)
+// size `L`: long double
+
+// handle integer and decimal parts separatly
+// Integer part can then be handled as normal int (explicit cast into a t_ull, then itoa)
+//   Actually, not possible because the integer part of a long double can be
+//   larger than LONG_LONG_MAX...
+//   => do we get numbers larger than that?
+// Decimal part should be multiplied by 10 as many times as the precision asks
+
+#include <stdio.h>
+
+int					get_double_len(long double f)
+{
+	int					len;
+
+	len = 1;
+	while (f > 10)
+	{
+		len++;
+		f /= 10;
+	}
+	return (len);
+}
+
+char				*handle_int_part(long double f)
+{
+	char				*number;
+	int					len;
+
+	len = (f < 0) ? get_double_len(f) + 1 : get_double_len(f);
+	printf("len: %d\n", len);
+	if (!(number = (char*)malloc(len + 1)))
+		exit(1);
+	number[len--] = 0;
+	if (f < 0)
+		number[0] = '-';
+	if (f == 0)
+		number[0] = '0';
+	while (f > 10)
+	{
+		number[len--] = (f % 10) + 48;
+		f /= 10;
+	}
+	number[len--] = (f % 10) + 48;
+	f /= 10;
+	return (number);
+}
+
+int				main(void)
+{
+	double f = 33.14;
+	printf("%f\n", f);
+
+	printf("len: %d\n", get_double_len(f));
+	
+	// printf("Storage size for float : %lu\n", sizeof(float));
+	// printf("Minimum float positive value: %f\n", FLT_MIN );
+	// printf("Maximum float positive value: %f\n", FLT_MAX );
+	// printf("Precision value: %d\n", FLT_DIG );
+
+	return (0);
 }

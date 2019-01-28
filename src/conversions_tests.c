@@ -27,6 +27,7 @@ int				main(void)
 	// dealing with numbers), don't forget to cast into the type the handler and
 	// printf expects - see char_decimal_to_str tests for examples.
 
+	/*
 	printf("%s %hhd\n", signed_dec_to_str((char)-129, 1), (char)-129);  // overflow to the top
 	printf("%s %hhd\n", signed_dec_to_str((char)-128, 1), (char)-128);
 	printf("%s %hhd\n", signed_dec_to_str((char)-42, 1), (char)-42);
@@ -85,7 +86,7 @@ int				main(void)
 	printf("%s %lld\n", signed_dec_to_str((long long)9223372036854775808, 4), (long long)9223372036854775808);  // overflow to lowest value
 	printf("%s %lld\n", signed_dec_to_str((long long)9223372036854775809, 4), (long long)9223372036854775809);
 	printf("\n");
-
+	*/
 	
 	// UNSIGNED HANDLERS
 
@@ -143,6 +144,24 @@ int				main(void)
 	*/
 
 	// let's try the big piece: floats!
+	// it seems to me that all flags and operations can be applied after the conversion,
+	// except for the precision which should be done prior or during the process
+	// of turning a float into a string -> let's see how
+	// printf("%f\n", 7.3); // by default a precision of 6
+	// printf("%.2f\n", 7.3);
+
+	/*
+	double dot = 233.007;
+	printf("%f\n", dot);
+	int ipart = (int)dot;
+	printf("%d\n", ipart);
+	double dpart = dot - (double)ipart;
+	printf("%f\n", dpart);
+	printf("sizeof(long double): %lu\n", sizeof(long long));
+	*/
+
+	char			*double_to_str(double n);
+	printf("%s %lf\n", double_to_str(9007199254740990.30), 9007199254740990.30);
 
 	return (0);
 }
