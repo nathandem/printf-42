@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/28 17:14:45 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:09:33 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 ** because it doesn't belong to the directive form, it's rather the length of
 ** of the directive in the string, the number of characters it takes.
 */
+
+# define ABS(Value) (((Value) >= 0) ? (Value) : (-Value))
 
 typedef unsigned char		t_uc;
 typedef unsigned short		t_us;

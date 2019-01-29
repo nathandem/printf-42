@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:58:09 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/22 14:22:45 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:10:47 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_dir				*parse_dir(const char *str)
 	// min width behaves as if the `0` flag is placed just ahead of it
 	if (ft_isdigit(str[i]))
 	{
-		cur_dir->min_width = ft_atoi(str + i);
+		cur_dir->min_width = ABS(ft_atoi(str + i));
 		while (ft_isdigit(str[i]))
 			i++;
 	}
@@ -100,10 +100,11 @@ t_dir				*parse_dir(const char *str)
 	// Yet, the fact that we run atoi if a dot is met guarantees that, in this
 	// case, the precision is set at 0 or more (not the default `-1` value).
 	// TO BE CONFIRMED BY TESTS
+	// also check that no negative precision pass
 	if (str[i] == '.')
 	{
 		i++;
-		cur_dir->precision = ft_atoi(str + i);
+		cur_dir->precision = ABS(ft_atoi(str + i));
 		while (ft_isdigit(str[i]))
 			i++;
 	}
