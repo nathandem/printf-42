@@ -57,7 +57,7 @@ int			main(void)
 	printf("%.0d\n", 2);
 
 	// set a minimum field width of 3
-	printf(":% 3.d:\n", 2);
+	printf(":%3d:\n", 2);
 	printf(":%05i:\n", 2);
 	printf(":%03i:\n", 2);
 	printf(":%0# 3i:\n", 2);

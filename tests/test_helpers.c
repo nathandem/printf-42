@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 17:08:07 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/22 19:09:10 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/04 15:06:20 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,16 @@ void				display_t_dir(t_dir *cur_dir)
 		printf("pos_sign: %d\n", cur_dir->pos_sign);
 	if (cur_dir->space != -1)
 		printf("space: %d\n", cur_dir->space);
-	if (cur_dir->min_width != -1)
-		printf("min_width: %d\n", cur_dir->min_width);
+	if (cur_dir->width != -1)
+		printf("min_width: %d\n", cur_dir->width);
 	if (cur_dir->precision != -1)
 		printf("precision: %d\n", cur_dir->precision);
-	if (cur_dir->size != -1)
+	if (cur_dir->size != NONE)
 		printf("size: %d\n", cur_dir->size);
 	printf("type: %c\n\n", cur_dir->type);
 
 	free(cur_dir);
 }
-
 
 /*
 ** This function could work in case the function I'm testing retuns a string,

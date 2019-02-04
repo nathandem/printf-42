@@ -2,22 +2,6 @@
 #include <stdlib.h>
 #include "ft_printf.h"
 
-char			*signed_char_decimal_to_str(char n);
-char			*signed_short_decimal_to_str(short n);
-char			*signed_int_decimal_to_str(int n);
-char			*signed_long_decimal_to_str(long n);
-char			*signed_long_long_decimal_to_str(long long n);
-
-char			*signed_dec_to_str(long long n, char size);
-char			*unsigned_to_str(t_ull n, char base, char size, char cap);
-
-char			*octal_to_str(long long n);
-char			*unsigned_octal_to_str(long long n, int size);
-char			*decimal_to_str(long long n);
-char			*unsigned_decimal_to_str(long long n, int size);
-char			*hex_to_str(long long n, char maj);
-
-
 int				main(void)
 {
 	// SIGNED SIZE+CONVERSION HANDLERS
@@ -27,7 +11,6 @@ int				main(void)
 	// dealing with numbers), don't forget to cast into the type the handler and
 	// printf expects - see char_decimal_to_str tests for examples.
 
-	/*
 	printf("%s %hhd\n", signed_dec_to_str((char)-129, 1), (char)-129);  // overflow to the top
 	printf("%s %hhd\n", signed_dec_to_str((char)-128, 1), (char)-128);
 	printf("%s %hhd\n", signed_dec_to_str((char)-42, 1), (char)-42);
@@ -38,8 +21,10 @@ int				main(void)
 	printf("%s %hhd\n", signed_dec_to_str((char)127, 1), (char)127);
 	printf("%s %hhd\n", signed_dec_to_str((char)128, 1), (char)128);  // overflow to the bottom
 	printf("%s %hhd\n", signed_dec_to_str((char)129, 1), (char)129);
+	printf("%s %hhd\n", signed_dec_to_str((char)255, 1), (char)255);
 	printf("\n");
 	
+	/*
 	printf("%s\n", "%hd or %hi, signed short decimal");
 	printf("The data passed to my handler here has %lu bytes\n", sizeof(short));
 	printf("%s %hd\n", signed_dec_to_str((short)-32769, 2), (short)-32769);  // overflow to the top
@@ -160,8 +145,10 @@ int				main(void)
 	printf("sizeof(long double): %lu\n", sizeof(long long));
 	*/
 
+	/*
 	char			*double_to_str(double n);
 	printf("%s %lf\n", double_to_str(9007199254740990.30), 9007199254740990.30);
+	*/
 
 	return (0);
 }

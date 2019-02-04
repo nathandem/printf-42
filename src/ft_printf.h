@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/29 15:09:33 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/04 17:13:09 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 ** `neg_sign` is a flag, possible value: 0 or 1
 ** `pos_sign` is a flag, possible value: 0 or 1
 ** `space` is a flag, possible value: 0 or 1
-** `min_width` refers to the min width the res that have, possible value: >=0
+** `width` refers to the min width the res that have, possible value: >=0
 ** `precision` refers to precision, possible value: >=0
 ** `size` refers to the conversion of types, possible values:
 **		0: `hh` (char, 1 byte)
@@ -66,7 +66,7 @@ typedef struct	s_directive
 	int				neg_sign;
 	int				pos_sign;
 	int				space;
-	int				min_width;
+	int				width;
 	int				precision;
 	enum e_size		size;
 	char			type;
@@ -77,5 +77,11 @@ void			ft_printf(const char *str, ...);
 
 t_dir			*initialize_a_dir(void);
 t_dir			*parse_dir(const char *str);
+char			*signed_dec_to_str(long long n, int size);
+char			*unsigned_to_str(t_ull n, int base, int size, int cap);
+
+char			*create_str_of_len_char(char c, int len);
+char			*realloc_with_add_on_left(char *str, char *left_str);
+char			*realloc_with_add_on_right(char *str, char *right_str);
 
 #endif

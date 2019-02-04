@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:58:09 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/01/29 15:10:47 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/04 15:03:13 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ t_dir				*initialize_a_dir(void)
 
 	if (!(cur_dir = (t_dir*)malloc(sizeof(t_dir))))
 		exit(1);
-	cur_dir->hash = -1;
-	cur_dir->zero = -1;
-	cur_dir->neg_sign = -1;
-	cur_dir->pos_sign = -1;
-	cur_dir->space = -1;
-	cur_dir->min_width = -1;
+	cur_dir->hash = 0;
+	cur_dir->zero = 0;
+	cur_dir->neg_sign = 0;
+	cur_dir->pos_sign = 0;
+	cur_dir->space = 0;
+	cur_dir->width = -1;
 	cur_dir->precision = -1;
-	cur_dir->size = NONE;  // or 0 if none doesn't work
+	cur_dir->size = NONE;  // or 0 if doesn't work
 	cur_dir->type = '.';
 	cur_dir->len = 1;
 	return (cur_dir);
@@ -89,7 +89,7 @@ t_dir				*parse_dir(const char *str)
 	// min width behaves as if the `0` flag is placed just ahead of it
 	if (ft_isdigit(str[i]))
 	{
-		cur_dir->min_width = ABS(ft_atoi(str + i));
+		cur_dir->width = ABS(ft_atoi(str + i));
 		while (ft_isdigit(str[i]))
 			i++;
 	}
@@ -121,10 +121,10 @@ t_dir				*parse_dir(const char *str)
 			if (str[i + 1] == 'h')
 			{
 				i++;
-				cur_dir->size = 1;
+				cur_dir->size = hh;
 			}
 			else
-				cur_dir->size = 2;
+				cur_dir->size = h;
 		}
 
 		else if (str[i] == 'l')
@@ -132,14 +132,14 @@ t_dir				*parse_dir(const char *str)
 			if (str[i + 1] == 'l')
 			{
 				i++;
-				cur_dir->size = 4;
+				cur_dir->size = ll;
 			}
 			else
-				cur_dir->size = 3;
+				cur_dir->size = l;
 		}
 
 		else if (str[i] == 'L')
-			cur_dir->size = 5;
+			cur_dir->size = L;
 
 		i++;
 	}
