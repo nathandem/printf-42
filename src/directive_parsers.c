@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:58:09 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/04 15:03:13 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/05 12:03:46 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_dir				*parse_dir(const char *str)
 	// Yet, the fact that we run atoi if a dot is met guarantees that, in this
 	// case, the precision is set at 0 or more (not the default `-1` value).
 	// TO BE CONFIRMED BY TESTS
-	// also check that no negative precision pass
+	// also CHECK that no negative precision pass, because neg precisions don't exist
 	if (str[i] == '.')
 	{
 		i++;

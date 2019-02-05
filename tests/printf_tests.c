@@ -16,14 +16,14 @@ int			main(void)
 	printf("%05c\n", 'b');
 	printf(":%5c:\n", 'd');
 	// precision: possible but doesn't make sense
-	printf(":%.c:\n", 'e');
+	printf(":%.c:\n\n", 'e');
 
 	// s CONVERSION - STRING
 	// min field width behaves as expected
 	// precision however cuts all the letters after the precision nb
-	printf(":%s:\n", "hello you");
+	printf(":% s:\n", "hello you");
 	// min field width of 10
-	printf(":%-010s:\n", "hello you");
+	printf(":%010s:\n", "hello you");
 	// max 10 characters
 	printf(":%.10s:\n", "hello you");
 	// min width of 10, max 3 characters
