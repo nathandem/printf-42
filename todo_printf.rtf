@@ -2,34 +2,26 @@
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 {\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww19540\viewh26620\viewkind0
+\margl1440\margr1440\vieww16540\viewh27080\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs28 \cf0 Questions :\
-- peut-on arreter de print si une directive n'est pas valide ?\
-	ex: printf("%# !s\\n");  printf("%-5.5\\n");   printf("!s");\
-  ou faut-il skip les morceaux non valides et print ce qui est valide apres ?
-\i \
-Best effort.
-\i0 \
-\
-\
-
-\b Coming next:\
+\f0\b\fs28 \cf0 Next:\
 
 \b0 - create the parsing system with stdarg, make some test with it for simple element (not integrate with the parser and the handlers)\
+- make the `ft_printf` function (don't forget to return a value)\
 - lastly integrate, the directive parser and the handlers with the stdarg machine
 \b \
 
 \b0 - handle float\
 - move realloc helpers and the fc in `utils` to libft\
+- adjust to the Norme & check filenames+header alignement\
 \
 \
 \
 Note:\
 - passing arguments by reference is a smarter to spare a return of a function (that includes `i` counters)\
 \
-- structuring `ft_printf` like below seems a good thing to do:\
+- structuring `ft_printf` is an option if not enough room in ft_printf to hold everything:\
 
 \i int				ft_printf(const char *format, ...)\
 \{\
@@ -137,77 +129,9 @@ Le type du/des arguments fourni doit correspondre \'e0 ce que la fonction de con
 \i after type promotion?
 \i0 ).\
 \
-Liste des operateurs pouvant apparaitre apres % qu'il faut que l'on prenne en compte (dans leur ordre d'apparition):\
-\
-A) les 
-\b flags
-\b0  suivants :\
-`#` differentes regles suivant la conversion qui suit, mais globalement il s'agit de conserver les 0\
-`0` zero padding\
-`-` negative field width flag\
-`+` mettre un `+` devant un nb produit par une "signed conversion"\
-` ` leave a blank before a positive nb produced by a signed conversion\
-\
-B) optional decimal digit string specifying a 
-\b minimum field width
-\b0 . Si la valeur convertie fait moins que cette valeur, ajouter des espaces sur la gauche (ou la droite si utilise le flag `-` ?)\
-\
-C) optional 
-\b precision
-\b0 , in the form of a . followed by an optional digit string. If no digit string, some defaults depending on the conversion flag provided\
-\
-
-\b attention \'e0 la diff\'e9rence \ul width\ulnone  et \ul precision\ulnone  > pour les chiffres et le reste. printf d'un gars en correction dead \'e0 cause de \'e7a.
-\b0 \
-\
-D) 
-\b Size
-\b0 \
-h\
-hh\
-l\
-ll\
--> different comportement suivant la conversion de type fournie\
-\
-G) flag de 
-\b conversion
-\b0 \
-`
-\b c
-\b0 ` un int est converti en unsigned char, le resultat est affich\'e9\
-`
-\b s
-\b0 ` un char * est copi\'e9/affich\'e9\
-`
-\b p
-\b0 ` void * affich\'e9 en hexadecimal\
-\
-`diouxX` avec les flags hh, h, l, ll\
-=> int (or appropriate variant, cad ce que les flags de size donnent) convertit en \
-	signed decimal (d and i - 2 letters here is useless, but included anyway for symetry with scanf) => signed decimal = signed int\
-	unsigned octal (o) => unsigned int en base 8 ?\
-	unsigned decimal (u) => unsigned int ?\
-	unsigned hexadecimal (x and X) => unsigned int?\
-		note: for x, `abcdef` are used; for x, `ABCDEF` are used for the letters\
-\
-\
-
-\b f
-\b0  takes a double argument, which gets rounded and converted to decimal notation (`xx.xx`). Avec des variations pour le nb de chiffres apres le `.` suivant la specification de longeur\
-flags de longeur:\
-l  double\
-L  long double\
-\
-\
-\
-
-\b => pour les cas ind\'e9finis, faire en fonction de ce qui est le plus simple et le plus coh\'e9rent
-\b0 \
-\
 \
 Attention \'e0 la gestion de l'unicode. Optionnel\
 \
-- Penser \'e0 retourner nb charact\'e8res affich\'e9s\
 \
 
 \i Les caracteres speciaux sont g\'e9r\'e9s par write :)

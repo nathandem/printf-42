@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/04 17:13:09 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/11 19:46:55 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,14 @@ typedef struct	s_directive
 	int				len;
 }				t_dir;
 
-void			ft_printf(const char *str, ...);
+typedef struct	s_d2h
+{
+	char			type;
+	enum e_size		size;
+	char			*(*ft_d2h)(va_list*, t_dir*);
+}				t_d2h;
+
+int				ft_printf(const char *str, ...);
 
 t_dir			*initialize_a_dir(void);
 t_dir			*parse_dir(const char *str);
@@ -83,5 +90,26 @@ char			*unsigned_to_str(t_ull n, int base, int size, int cap);
 char			*create_str_of_len_char(char c, int len);
 char			*realloc_with_add_on_left(char *str, char *left_str);
 char			*realloc_with_add_on_right(char *str, char *right_str);
+
+char			*handle_char(char c, t_dir *cur_dir);
+char			*handle_string(char *str, t_dir *cur_dir);
+char			*handle_integer(long long n, t_dir *cur_dir);
+
+/*
+** Having a write so much function just to hardcode the return value of
+** stdarg is a shame...
+*/
+
+char			*char_dir_to_str(va_list *ap, t_dir *cur_dir);
+char			*str_dir_to_str(va_list *ap, t_dir *cur_dir);
+char			*address_dir_to_str(va_list *ap, t_dir *cur_dir);
+char            *signed_char_dir_to_str(va_list *ap, t_dir *cur_dir);
+char            *signed_short_dir_to_str(va_list *ap, t_dir *cur_dir);
+char            *signed_int_dir_to_str(va_list *ap, t_dir *cur_dir);
+char            *signed_long_dir_to_str(va_list *ap, t_dir *cur_dir);
+char            *signed_long_long_dir_to_str(va_list *ap, t_dir *cur_dir);
+
+// debugging
+void			display_t_dir(t_dir *cur_dir);
 
 #endif

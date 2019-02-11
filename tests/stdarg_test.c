@@ -4,7 +4,7 @@
 
 /*
 ** A `NULL` pointer is passed on the last argument, to tell the stdarg
-** when to stop.
+** when to stop. Loop till reaching NULL.
 ** All args assumed to be of type `char*`.
 */
 
@@ -58,7 +58,7 @@ int			sum(int nb_args, ...)
 	sum = 0;
 	va_start(ap, nb_args);
 	for (i = 0; i < nb_args; i++) {
-		int n = va_arg(ap, int);
+		int n = va_arg(ap, "int");
 		sum += n;
 	}
 	va_end(ap);

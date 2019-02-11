@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 16:42:15 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/11 11:26:30 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/11 19:23:08 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char			*handle_width(char *res, int tmp_s_len, t_dir *cur_dir)
 }
 
 // filter out invalid directives and values before calling this function
-void			handle_integer(long long n, t_dir *cur_dir)
+char			*handle_integer(long long n, t_dir *cur_dir)
 {
 	char			*res;
 	int				res_len;
@@ -121,16 +121,16 @@ void			handle_integer(long long n, t_dir *cur_dir)
 	if (cur_dir->zero && cur_dir->precision == -1)
 		res = handle_hash(res, cur_dir, n);
 
-	// should we print here or elsewhere?
-	write(1, res, ft_strlen(res));
+	return (res);
 }
 
-void			handle_char(char c, t_dir *cur_dir)
+char			*handle_char(char c, t_dir *cur_dir)
 {
 	char			*res;
 	int				width_extension_len;
 
-	res = (char*)malloc(2);
+	if (!(res = (char*)malloc(2)))
+		return (NULL);
 	res[0] = c;
 	res[1] = 0;
 
@@ -139,7 +139,7 @@ void			handle_char(char c, t_dir *cur_dir)
 		width_extension_len = cur_dir->width - 1;
 		res = handle_width(res, width_extension_len, cur_dir);
 	}
-	write(1, res, ft_strlen(res));
+	return (res);
 }
 
 /*
@@ -155,7 +155,7 @@ void			handle_char(char c, t_dir *cur_dir)
 ** range of the unsigned values.
 */
 
-void			handle_string(char *str, t_dir *cur_dir)
+char			*handle_string(char *str, t_dir *cur_dir)
 {
 	char			*res;
 	int				width_extension_len;
@@ -171,6 +171,5 @@ void			handle_string(char *str, t_dir *cur_dir)
 		width_extension_len = cur_dir->width - ft_strlen(res);
 		res = handle_width(res, width_extension_len, cur_dir);
 	}
-
-	write(1, res, ft_strlen(res));
+	return (res);
 }
