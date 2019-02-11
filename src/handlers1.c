@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 16:42:15 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/05 19:15:02 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/11 11:26:30 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char			*handle_hash(char *res, t_dir *cur_dir, t_ull n)
 	return (res);
 }
 
-char			*handle_width(char *res, int tmp_s_len, t_dir *cur_dir, t_ull n)
+char			*handle_width(char *res, int tmp_s_len, t_dir *cur_dir)
 {
 	char			*tmp_str;
 
@@ -117,7 +117,7 @@ void			handle_integer(long long n, t_dir *cur_dir)
 	if (!cur_dir->zero || cur_dir->precision != -1)
 		res = handle_hash(res, cur_dir, n);
 	if (width_extension_len)
-		res = handle_width(res, width_extension_len, cur_dir, n);
+		res = handle_width(res, width_extension_len, cur_dir);
 	if (cur_dir->zero && cur_dir->precision == -1)
 		res = handle_hash(res, cur_dir, n);
 
@@ -131,37 +131,46 @@ void			handle_char(char c, t_dir *cur_dir)
 	int				width_extension_len;
 
 	res = (char*)malloc(2);
-	res[1] = 0;
 	res[0] = c;
+	res[1] = 0;
 
 	if (cur_dir->width > 1)
 	{
 		width_extension_len = cur_dir->width - 1;
-		res = handle_width(res, width_extension_len, cur_dir, 0);
+		res = handle_width(res, width_extension_len, cur_dir);
 	}
 	write(1, res, ft_strlen(res));
 }
 
+/*
+** `handle_string` receives a string and a parsed directive as inputs, does the
+** proper formating, then print (????) the result.
+**
+** Note: because the util `ft_strlen` returns an unsigned value, it can't be
+** compared to a signed one. Most compilers perform an implicit cast of the
+** signed value into an unsigned, which compilely twist the result. Here, it
+** meant that cur_dir->width with its default value of -1 was bigger than any
+** reasonable length of `ft_strlen(char*)`. Had to add `cur_dir->width != -1`
+** to make the signed value which would be compared wouldn't end up in the upper
+** range of the unsigned values.
+*/
+
 void			handle_string(char *str, t_dir *cur_dir)
 {
 	char			*res;
-	int				res_len;
+	int				width_extension_len;
 
-	// in case I realize that I've to duplicate the str ealier, 
-	// remove the duplication here
-	// but better do here, because I can handle the precision and the conversion
-	// at once
-	if (cur_dir->precision && ft_strlen(str) > cur_dir->precision)
-	{
+	if (cur_dir->precision != -1
+		&& ft_strlen(str) > (unsigned long)cur_dir->precision)
 		res = ft_strsub(str, 0, cur_dir->precision);
-		res_len = ft_strlen(res);
-	}
 	else
-	{	
 		res = ft_strdup(str);
-		res_len = ft_strlen(res);
+
+	if (cur_dir->width != -1 && (unsigned long)cur_dir->width > ft_strlen(res))
+	{
+		width_extension_len = cur_dir->width - ft_strlen(res);
+		res = handle_width(res, width_extension_len, cur_dir);
 	}
-	
-	res = handle_width(res, 1, cur_dir, 0);
-	// print the res, or send it to another function
+
+	write(1, res, ft_strlen(res));
 }

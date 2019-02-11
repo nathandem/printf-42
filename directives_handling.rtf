@@ -11,7 +11,7 @@
 \b0 \
 - `
 \b #
-\b0 ` : NO but only 3 types concerned (oxX) but it's straightforward.\
+\b0 ` : NO but only 3 types concerned (oxX) but it's straightforward\
 Add a prefix for o, x and X and ignore the rest. Simple to handle in these functions. Respectively add `0`, `0x` or `0X` to these flags.\
 => before min width field\
 \
@@ -91,16 +91,16 @@ One group for f\
 \b type
 \b0 :\
 	Invidual functions:\
-		c: prints a single byte characters => ft_putchar\
-		s: prints every character of the string until `\\0` is met (or the precision) => ft_putstr\
-		p: display memory address in hexadecimal == %#x 
-\i Is `x` enough to take care of it? (attention to the case with a flag..)\
+		c: prints a single byte characters\
+		s: prints every character of the string until `\\0` is met (or the precision)\
+		p: display memory address in hexadecimal
+\i \
 
 \i0 \
 	These might even be grouped... \
-		d and i: prints a signed \ul decimal\ulnone  integer => char *int_to_str(int)\
+		d and i: prints a signed \ul decimal\ulnone  integer\
 		o: prints an unsigned \ul octal\ulnone  int\
-		u: prints an unsigned \ul decimal\ulnone  integer => char *int_to_str(int)\
+		u: prints an unsigned \ul decimal\ulnone  integer\
 		x: prints \ul hexadecimal\ulnone  int (using "abcdef")\
 		X: prints \ul hexadecimal\ulnone  int (using "ABCDEF")\
 \

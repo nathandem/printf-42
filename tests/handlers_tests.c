@@ -3,6 +3,7 @@
 
 void			handle_integer(long long n, t_dir *cur_dir);
 void			handle_char(char c, t_dir *cur_dir);
+void			handle_string(char *str, t_dir *cur_dir);
 
 int				main(void)
 {
@@ -158,6 +159,92 @@ int				main(void)
 	handle_char('a', cur_dir);
 	*/
 
+
+	// `s` conversions
+
+	/*
+	printf(":%s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	printf(":%.5s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	cur_dir->precision = 5;
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	printf(":%.15s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	cur_dir->precision = 15;
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	// nothing printed
+	printf(":%.0s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	cur_dir->precision = 0;
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	// width < len str (10 < 12)
+	printf(":%10s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	cur_dir->width = 10;
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	// width > len str (15 > 12)
+	printf(":%15s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	cur_dir->width = 15;
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	printf(":%0s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	cur_dir->width = 0;
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	printf(":%015s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	cur_dir->zero = 1;
+	cur_dir->width = 15;
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	printf(":%-15.5s:\n", "hello world!");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	cur_dir->neg_sign = 1;
+	cur_dir->width = 15;
+	cur_dir->precision = 5;
+	handle_string("hello world!", cur_dir);
+	*/
+
+	/*
+	printf(":%s:\n", "%s");
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 's';
+	handle_string("%s", cur_dir);
+	*/
 
 	return (0);
 }
