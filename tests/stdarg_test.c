@@ -58,7 +58,7 @@ int			sum(int nb_args, ...)
 	sum = 0;
 	va_start(ap, nb_args);
 	for (i = 0; i < nb_args; i++) {
-		int n = va_arg(ap, "int");
+		int n = va_arg(ap, int);
 		sum += n;
 	}
 	va_end(ap);

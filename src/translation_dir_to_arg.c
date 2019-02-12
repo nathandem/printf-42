@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 15:20:43 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/11 19:53:18 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/12 10:26:09 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char			*str_dir_to_str(va_list *ap, t_dir *cur_dir)
 
 char			*address_dir_to_str(va_list *ap, t_dir *cur_dir)
 {
-	return (handle_integer((t_ul)va_arg(*ap, unsigned long), cur_dir));
+	return (handle_integer((t_ul)va_arg(*ap, t_ul), cur_dir));
 }
 
 char			*signed_char_dir_to_str(va_list *ap, t_dir *cur_dir)
@@ -49,5 +49,30 @@ char			*signed_long_dir_to_str(va_list *ap, t_dir *cur_dir)
 
 char			*signed_long_long_dir_to_str(va_list *ap, t_dir *cur_dir)
 {
-	return (handle_integer((t_ull)va_arg(*ap, long long), cur_dir));
+	return (handle_integer((long long)va_arg(*ap, long long), cur_dir));
+}
+
+char			*unsigned_char_dir_to_str(va_list *ap, t_dir *cur_dir)
+{
+	return (handle_integer((t_uc)va_arg(*ap, t_uc), cur_dir));
+}
+
+char			*unsigned_short_dir_to_str(va_list *ap, t_dir *cur_dir)
+{
+	return (handle_integer((t_us)va_arg(*ap, t_us), cur_dir));
+}
+
+char			*unsigned_int_dir_to_str(va_list *ap, t_dir *cur_dir)
+{
+	return (handle_integer((t_ui)va_arg(*ap, t_ui), cur_dir));
+}
+
+char			*unsigned_long_dir_to_str(va_list *ap, t_dir *cur_dir)
+{
+	return (handle_integer((t_ul)va_arg(*ap, t_ul), cur_dir));
+}
+
+char			*unsigned_long_long_dir_to_str(va_list *ap, t_dir *cur_dir)
+{
+	return (handle_integer((t_ull)va_arg(*ap, t_ull), cur_dir));
 }

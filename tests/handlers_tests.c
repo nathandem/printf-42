@@ -1,10 +1,6 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-void			handle_integer(long long n, t_dir *cur_dir);
-void			handle_char(char c, t_dir *cur_dir);
-void			handle_string(char *str, t_dir *cur_dir);
-
 int				main(void)
 {
 	char			*str;
@@ -245,6 +241,32 @@ int				main(void)
 	cur_dir->type = 's';
 	handle_string("%s", cur_dir);
 	*/
+
+
+	// `f` conversions
+
+	char		*tmp;
+
+	/*
+	printf(":%7.3f:\n", -3.14);
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 'f';
+	cur_dir->precision = 3;
+	cur_dir->width = 7;
+	cur_dir->pos_sign = 1;
+	tmp = handle_float(-3.14, cur_dir);
+	printf(":%s:\n", tmp);
+	*/
+
+	printf(":% .3f:\n", 3.14);
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 'f';
+	cur_dir->precision = 3;
+	cur_dir->space = 1;
+	cur_dir->pos_sign = 1;
+	tmp = handle_float(3.14, cur_dir);
+	printf(":%s:\n", tmp);
+
 
 	return (0);
 }

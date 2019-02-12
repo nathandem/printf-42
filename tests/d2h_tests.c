@@ -3,8 +3,7 @@
 
 int				main(void)
 {
-	ft_printf("%c: hello %s, it's %d A.M.! %hhd\n", 'n', "Lin", 10, 255);
-	printf("%hhd\n", 255);
+	printf("ret: %d\n", ft_printf("Hello %d!", 4222));
 
 	return (0);
 }

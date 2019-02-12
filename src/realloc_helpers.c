@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 13:05:02 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/04 14:43:45 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/12 18:31:31 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,33 @@ char		*realloc_with_add_on_right(char *str, char *right_str)
 	free(str);
 	return (ns);
 }
+
+/*
+** `ft_strnjoin` concatenates an arbitrary `nb_args` amount of string arguments
+** into one single string.
+** Note: the merged strings don't freed. Free them yourself is if needed.
+*/
+
+// assume stdarg.h is included in the header file of the lib
+char		*ft_strnjoin(int nb_args, ...)
+{
+	va_list		ap;
+	int			i;
+	char		*str;
+	char		*right;
+
+	if (!(str = (char*)malloc(1)))
+		return (NULL);
+	str[0] = 0;
+	va_start(ap, nb_args);
+	i = -1;
+	while (++i < nb_args)
+	{
+		printf("str: %s (loop %d)\n", str, i);
+		right = va_arg(ap, char*);
+		str = realloc_with_add_on_right(str, right);
+	}
+	va_end(ap);
+	return (str);
+}
+

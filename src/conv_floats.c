@@ -6,99 +6,59 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 09:50:30 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/04 09:50:57 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/12 18:32:05 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// sandbox for floats
-// size `l`: double (ignored, because by default, it's a double)
-// size `L`: long double
-
-// handle integer and decimal parts separatly
-// Integer part can then be handled as normal int (explicit cast into a t_ull, then itoa)
-//   Actually, not possible because the integer part of a long double can be
-//   larger than LONG_LONG_MAX...
-// Decimal part should be multiplied by 10 as many times as the precision asks
-
 #include <stdio.h>
+#include "ft_printf.h"
 
-int					get_double_int_len(long double f)
+int				ft_power(int n, int power)
 {
-	int					len;
-
-	len = 1;
-	while (f > 10)
-	{
-		len++;
-		f /= 10;
-	}
-	return (len);
+	if (power < 0)
+		return (0);
+	if (power == 0)
+		return (1);
+	return (n * ft_power(n, power - 1));
 }
 
-// if the trick of the cast doesn't work, cast the float (double or
-// long double) into a long long, then have it handle/transform into a string
-// by itoa
-// say it's okay for now, for the integer part
-char				*handle_int_part(long double f)
+char			*handle_float(double f, t_dir *cur_dir)
 {
-	char				*number;
-	int					len;
+	long long		tmp;
+	int				tmp2;
+	char			*whole_str;
+	char			*dec_str;
+	char			*res;
 
-	len = (f < 0) ? get_double_int_len(f) + 1 : get_double_int_len(f);
-	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
-	number[len--] = 0;
-	if (f < 0)
-		number[0] = '-';
-	if (f == 0)
-		number[0] = '0';
-	while (f > 10)
-	{
-		number[len--] = ((long long)f % 10) + 48;
-		f /= 10;
-	}
-	number[len--] = ((long long)f % 10) + 48;
-	f /= 10;
-	return (number);
-}
-
-// don't call this function if precision is 0
-char				*handle_dec_part(long double f, int precision)
-{
-	char				*number;
-	int					pos;
+	// if int part is 0, need to have `0` explicit -> e.g. `0.14`
+	tmp = (long long)f;
+	whole_str = signed_dec_to_str(tmp, 4);
+	handle_sign_mark(whole_str, cur_dir, tmp);
 	
-	pos = 0;
-	if (!(number = (char*)malloc(precision + 1)))
-		exit(1);
-	number[precision] = 0;
-	while (precision)
+	printf("whole_str: %s\n", whole_str);
+
+	if (!cur_dir->precision)
+		res = whole_str;
+	else
 	{
-		printf("f: %Lf\n", f);
-		f *= 10;
-		number[pos++] = ((int)f % 10) + 48;
-		precision--;
+		tmp2 = (cur_dir->precision == -1) ? 6 : cur_dir->precision;
+		tmp2 = ft_power(10, tmp2);
+		tmp = ABS((long long)((f - tmp) * tmp2));
+		printf("whole_str (before dec_str assignment): %s\n", whole_str);
+		dec_str = signed_dec_to_str(tmp, 4); // what's going wrong here?!
+		printf("whole_str (after dec_str assigment): %s\n", whole_str);
+		printf("dec_str: %s\n", dec_str);
+		res = ft_strnjoin(3, whole_str, ".", dec_str);
+		free(dec_str);
 	}
-	return (number);
-}
 
-int				main(void)
-{
-	long double f = (long double)310323882.14; // show it with a precision of 2
-	long long whole = (long long)f;
-	long double dec = f - whole;
+	if (cur_dir->width != -1)
+	{
+		tmp = ft_strlen(res);
+		tmp = cur_dir->width - tmp;
+		res = handle_width(res, cur_dir, tmp);
+	}
 
-	/*
-	printf("%Lf\n", f);
-	printf("int part handled by a itoa variant: %s\n", signed_dec_to_str(whole, 4));
-	printf("int part: %s\n", handle_int_part(f));
-	*/
-	printf("decimal part by printf: %Lf\n", dec);
-	printf("decimal part: %s\n", handle_dec_part(dec, 4));
-
-	// printf("Storage size for float : %lu\n", sizeof(float));
-	// printf("Minimum float positive value: %f\n", FLT_MIN );
-	// printf("Precision value: %d\n", FLT_DIG );
-
-	return (0);
+	// free(whole_str);
+	return (res);
 }
