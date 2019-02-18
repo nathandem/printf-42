@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:50:54 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/12 13:34:49 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 09:51:21 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void			handle_dir(const char *dir, va_list *ap, int *pos, int *ret)
 	char			*str;
 	int				i;
 
+	// where the parsing of the directive takes place
+	// tests some invalid cases (missing conversion flag for instance)
 	cur_dir = parse_dir(dir);
 	if (cur_dir->type == '.')
 	{
@@ -27,16 +29,19 @@ void			handle_dir(const char *dir, va_list *ap, int *pos, int *ret)
 		return ;
 	}
 
+	// where the value and the directive are routed to the proper handler
 	i = -1;
-	while (++i < 33)  // to be changed at each new insert
+	while (++i < 33)
 	{
 		if ((g_d2h[i].type == cur_dir->type)
 		&& (g_d2h[i].size == cur_dir->size))
 			str = g_d2h[i].ft_d2h(ap, cur_dir);
 	}
 
+	// print out the result
 	ft_putstr(str);
 
+	// eventually, free (no leaks)
 	*pos += (cur_dir->len - 1);
 	*ret += (int)ft_strlen(str);
 	free(cur_dir);
@@ -45,7 +50,8 @@ void			handle_dir(const char *dir, va_list *ap, int *pos, int *ret)
 }
 
 /*
-** Just a trick on the Norm to have ft_printf fit in 25 lines max.
+** Just a trick on the Norm to get ft_printf fits in 25 lines max.
+** It's ugly, I know.
 */
 
 void			putchar_and_increment_ret(char c, int *ret)
@@ -56,7 +62,7 @@ void			putchar_and_increment_ret(char c, int *ret)
 
 /*
 ** `ft_printf` entry point of the project. Reproduces the main features of
-** the real `printf` from `stdio.h`. Have a look at the README for more.
+** the real `printf` from `stdio.h`.
 */
 
 int				ft_printf(const char *format, ...)

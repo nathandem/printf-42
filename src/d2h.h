@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_d2h.h                                           :+:      :+:    :+:   */
+/*   d2h.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 17:34:27 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/12 14:48:07 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 10:55:03 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** This is a disaster of conciseness.
 */
 
-t_d2h			g_d2h[33] =
+t_d2h			g_d2h[36] =
 {
 	{'c', NONE, &char_dir_to_str},
 	{'s', NONE, &str_dir_to_str},
@@ -57,4 +57,8 @@ t_d2h			g_d2h[33] =
 	{'X', NONE, &unsigned_int_dir_to_str},
 	{'X', l, &unsigned_long_dir_to_str},
 	{'X', ll, &unsigned_long_long_dir_to_str},
+
+	{'f', NONE, &float_dir_to_str},
+	{'f', l, &float_dir_to_str},
+	{'f', L, &float_dir_to_str},
 };

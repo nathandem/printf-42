@@ -248,6 +248,7 @@ int				main(void)
 	char		*tmp;
 
 	/*
+	// A negative value
 	printf(":%7.3f:\n", -3.14);
 	cur_dir = initialize_a_dir();
 	cur_dir->type = 'f';
@@ -258,15 +259,50 @@ int				main(void)
 	printf(":%s:\n", tmp);
 	*/
 
-	printf(":% .3f:\n", 3.14);
+	/*
+	// Everything
+	printf(":%#+0- 7.3f:\n", 3.14);
 	cur_dir = initialize_a_dir();
 	cur_dir->type = 'f';
 	cur_dir->precision = 3;
+	cur_dir->width = 7;
 	cur_dir->space = 1;
 	cur_dir->pos_sign = 1;
+	cur_dir->hash = 1;
+	cur_dir->neg_sign = 1;
+	cur_dir->zero = 1;
 	tmp = handle_float(3.14, cur_dir);
 	printf(":%s:\n", tmp);
+	*/
 
+	/*
+	// 0 edge case
+	printf(":%f:\n", 0.14);
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 'f';
+	tmp = handle_float(0.14, cur_dir);
+	printf(":%s:\n", tmp);
+	*/
+
+	/*
+	// `14`
+	printf(":%.0f:\n", 14.14);
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 'f';
+	cur_dir->precision = 0;
+	tmp = handle_float(14.14, cur_dir);
+	printf(":%s:\n", tmp);
+	*/
+
+	/*
+	// Empty result, straight `0`
+	printf(":%.0f:\n", 0.14);
+	cur_dir = initialize_a_dir();
+	cur_dir->type = 'f';
+	cur_dir->precision = 0;
+	tmp = handle_float(0.14, cur_dir);
+	printf(":%s:\n", tmp);
+	*/
 
 	return (0);
 }

@@ -3,7 +3,7 @@
 
 int				main(void)
 {
-	printf("ret: %d\n", ft_printf("Hello %d!", 4222));
+	printf(":%llu:\n", -9223372036854775810U);
 
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/12 18:07:52 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 10:55:53 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ char			*handle_hash(char *res, t_dir *cur_dir, t_ull n);
 
 char			*handle_char(char c, t_dir *cur_dir);
 char			*handle_string(char *str, t_dir *cur_dir);
-char			*handle_integer(long long n, t_dir *cur_dir);
+char			*handle_signed_integer(long long n, t_dir *cur_dir);
+char			*handle_unsigned_integer(unsigned long long n, t_dir *cur_dir);
 char			*handle_float(double f, t_dir *cur_dir);
 
 /*
@@ -118,6 +119,7 @@ char            *unsigned_int_dir_to_str(va_list *ap, t_dir *cur_dir);
 char            *unsigned_long_dir_to_str(va_list *ap, t_dir *cur_dir);
 char            *unsigned_long_long_dir_to_str(va_list *ap, t_dir *cur_dir);
 
+char			*float_dir_to_str(va_list *ap, t_dir *cur_dir);
 
 // helper functions -> to be moved to libft
 char			*create_str_of_len_char(char c, int len);
