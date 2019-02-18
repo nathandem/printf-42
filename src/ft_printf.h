@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 14:49:26 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/19 13:38:19 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char			*unsigned_to_str(t_ull n, int base, int size, int cap);
 
 char			*handle_sign_mark(char *res, t_dir *cur_dir, int n_shape);
 char			*handle_hash(char *res, t_dir *cur_dir, int n_shape);
-char			*handle_width(char *res, t_dir *cur_dir, int tmp_s_len);
+char			*handle_width(char *res, t_dir *cur_dir, int tmp_len);
 
 char			*handle_char(char c, t_dir *cur_dir);
 char			*handle_string(char *str, t_dir *cur_dir);

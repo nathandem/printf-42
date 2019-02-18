@@ -1,8 +1,12 @@
 #include "ft_printf.h"
+#include <stdio.h>
 
 int			main(void)
 {
-	ft_printf("Hello %d! %s\n", 42, "Today is the day!");
+	// printf("%d\n", ft_printf("%5%"));
+	
+	printf(":%.10d:\n", -42);
+	ft_printf(":%.10d:\n", -42);
 
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:58:09 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 11:44:17 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/19 14:01:36 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void				parse_flags(const char *str, t_dir *cur_dir, int *i)
 **    Returning a t_dir with a type of `.` means the directive is invalid.
 **
 ** Form of a directive: %[flags][width][.precision][size]type
-** Given this regular structure, our parser handle the segments of the
-** directive one at the time.
+** Given this structure, our parser handle the segments of the directive one
+** at the time.
 **
 ** Note: `parse_dir` must be called with a char pointer pointing on a `%` char.
 */

@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:50:54 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 14:38:30 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/19 14:04:38 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void			handle_dir(const char *dir, va_list *ap, int *pos, int *ret)
 	// print out the result
 	ft_putstr(str);
 
-	// eventually, free (no leaks)
+	// eventually, free (no leak)
 	*pos += (cur_dir->len - 1);
 	*ret += (int)ft_strlen(str);
-	free(cur_dir);
 	free(str);
+	free(cur_dir);
 	return ;
 }
 
@@ -57,7 +57,7 @@ void			handle_dir(const char *dir, va_list *ap, int *pos, int *ret)
 void			putchar_and_increment_ret(char c, int *ret)
 {
 	ft_putchar(c);
-	ret++;
+	(*ret)++;
 }
 
 /*
@@ -72,6 +72,7 @@ int				ft_printf(const char *format, ...)
 	int				ret;
 
 	i = -1;
+	ret = 0;
 	va_start(ap, format);
 	while (format[++i])
 	{
