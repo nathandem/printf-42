@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 13:29:27 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 09:34:29 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 13:11:59 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char			*create_str_of_len_char(char c, int len)
 	char			*str;
 
 	if (!(str = (char*)malloc(len + 1)))
-		return (NULL);
+		exit(1);
 	str[len] = 0;
 	while (len--)
 		str[len] = c;
@@ -42,9 +42,9 @@ char		*realloc_with_add_on_left(char *str, char *left_str)
 	char		*ns;
 
 	if (!str || !left_str)
-		return (NULL);
+		exit(1);
 	if (!(ns = ft_strnew(ft_strlen(str) + ft_strlen(left_str))))
-		return (NULL);
+		exit(1);
 	ft_strcpy(ns, left_str);
 	ft_strcat(ns, str);
 	free(str);
@@ -61,9 +61,9 @@ char		*realloc_with_add_on_right(char *str, char *right_str)
 	char		*ns;
 
 	if (!str || !right_str)
-		return (NULL);
+		exit(1);
 	if (!(ns = ft_strnew(ft_strlen(str) + ft_strlen(right_str))))
-		return (NULL);
+		exit(1);
 	ft_strcpy(ns, str);
 	ft_strcat(ns, right_str);
 	free(str);
@@ -85,7 +85,7 @@ char		*ft_strnjoin(int nb_args, ...)
 	char		*right;
 
 	if (!(str = (char*)malloc(1)))
-		return (NULL);
+		exit(1);
 	str[0] = 0;
 	va_start(ap, nb_args);
 	i = -1;

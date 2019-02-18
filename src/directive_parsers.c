@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:58:09 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/05 12:03:46 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:44:17 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,30 @@ t_dir				*initialize_a_dir(void)
 	return (cur_dir);
 }
 
+// handle flags, possible chars: #0- +
+// end of the flag when width (digit), or precision (introduced by a `.`),
+// or size (either h, hh, l, ll or L), or type (csp diouxX f), or `%` reached
+// if none of the 5 above, make the program exit because it's an error
+// -> hopefully, flags are distict from the following elements of the directive
+void				parse_flags(const char *str, t_dir *cur_dir, int *i)
+{
+	while (str[*i] == '#' || str[*i] == '0' || str[*i] == '-'
+			|| str[*i] == ' ' || str[*i] == '+')
+	{
+		if (str[*i] == '#')
+			cur_dir->hash = 1;
+		else if (str[*i] == '0')
+			cur_dir->zero = 1;
+		else if (str[*i] == '-')
+			cur_dir->neg_sign = 1;
+		else if (str[*i] == ' ')
+			cur_dir->space = 1;
+		else if (str[*i] == '+')
+			cur_dir->pos_sign = 1;
+		*i = *i + 1;
+	}
+}
+
 /*
 ** I: char *str is the pointer to the beginning of the directive to handle
 **    (the pointer points to the `%` sign)
@@ -59,26 +83,7 @@ t_dir				*parse_dir(const char *str)
 
 	cur_dir = initialize_a_dir();
 	i = 1;
-	// handle flags, possible chars: #0- +
-	// end of the flag when width (digit), or precision (introduced by a `.`),
-	// or size (either h, hh, l, ll or L), or type (csp diouxX f), or `%` reached
-	// if none of the 5 above, make the program exit because it's an error
-	// -> hopefully, flags are distict from the following elements of the directive
-	while (str[i] == '#' || str[i] == '0' || str[i] == '-' || str[i] == ' ' ||
-			str[i] == '+')
-	{
-		if (str[i] == '#')
-			cur_dir->hash = 1;
-		else if (str[i] == '0')
-			cur_dir->zero = 1;
-		else if (str[i] == '-')
-			cur_dir->neg_sign = 1;
-		else if (str[i] == ' ')
-			cur_dir->space = 1;
-		else if (str[i] == '+')
-			cur_dir->pos_sign = 1;
-		i++;
-	}
+	parse_flags(str, cur_dir, &i);
 
 	// handle width
 	// handling is pretty easy, width can only be digits

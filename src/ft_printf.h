@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 10:55:53 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 14:49:26 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ t_dir			*parse_dir(const char *str);
 char			*signed_dec_to_str(long long n, int size);
 char			*unsigned_to_str(t_ull n, int base, int size, int cap);
 
-char			*handle_sign_mark(char *res, t_dir *cur_dir, long long n);
+char			*handle_sign_mark(char *res, t_dir *cur_dir, int n_shape);
+char			*handle_hash(char *res, t_dir *cur_dir, int n_shape);
 char			*handle_width(char *res, t_dir *cur_dir, int tmp_s_len);
-char			*handle_hash(char *res, t_dir *cur_dir, t_ull n);
 
 char			*handle_char(char c, t_dir *cur_dir);
 char			*handle_string(char *str, t_dir *cur_dir);
@@ -121,7 +121,7 @@ char            *unsigned_long_long_dir_to_str(va_list *ap, t_dir *cur_dir);
 
 char			*float_dir_to_str(va_list *ap, t_dir *cur_dir);
 
-// helper functions -> to be moved to libft
+// helper functions
 char			*create_str_of_len_char(char c, int len);
 char			*realloc_with_add_on_left(char *str, char *left_str);
 char			*realloc_with_add_on_right(char *str, char *right_str);

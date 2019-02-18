@@ -6,12 +6,12 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:50:54 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 09:51:21 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 14:38:30 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "ft_d2h.h"
+#include "d2h.h"
 
 void			handle_dir(const char *dir, va_list *ap, int *pos, int *ret)
 {

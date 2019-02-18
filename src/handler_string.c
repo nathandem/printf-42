@@ -6,11 +6,11 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 09:26:03 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 09:26:48 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 14:46:02 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.c"
+#include "ft_printf.h"
 
 /*
 ** `handle_string` receives a string and a parsed directive as inputs, does the

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handlers_generic.c                                 :+:      :+:    :+:   */
+/*   handler_generics.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 08:52:00 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 08:54:58 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/18 12:01:15 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 ** conversions d, i (decimal integer) and f (float).
 */
 
-char			*handle_sign_mark(char *res, t_dir *cur_dir, long long n)
+char			*handle_sign_mark(char *res, t_dir *cur_dir, int n_shape)
 {
 	if (cur_dir->space && !cur_dir->pos_sign)
 		res = realloc_with_add_on_left(res, " ");
-	if (cur_dir->pos_sign && n >= 0)
+	if (cur_dir->pos_sign && n_shape >= 0)
 		res = realloc_with_add_on_left(res, "+");
 	return (res);
 }
@@ -39,15 +39,15 @@ char			*handle_sign_mark(char *res, t_dir *cur_dir, long long n)
 ** For `X`, it prepends `0X` before the result, if the result is not 0.
 */
 
-char			*handle_hash(char *res, t_dir *cur_dir, t_ull n)
+char			*handle_hash(char *res, t_dir *cur_dir, int n_shape)
 {
-	if (cur_dir->hash && n != 0)
+	if (cur_dir->hash && n_shape)
 	{
-		if (cur_dir->type == 'o' && n != 0)
+		if (cur_dir->type == 'o' && n_shape)
 			res = realloc_with_add_on_left(res, "0");
-		if ((cur_dir->type == 'x' && n != 0) || cur_dir->type == 'p')
+		if ((cur_dir->type == 'x' && n_shape) || cur_dir->type == 'p')
 			res = realloc_with_add_on_left(res, "0x");
-		if (cur_dir->type == 'X' && n != 0)
+		if (cur_dir->type == 'X' && n_shape)
 			res = realloc_with_add_on_left(res, "0X");
 	}
 	if (cur_dir->type == 'p')
