@@ -59,7 +59,7 @@ void				parse_flags(const char *str, t_dir *cur_dir, int *i)
 			cur_dir->space = 1;
 		else if (str[*i] == '+')
 			cur_dir->pos_sign = 1;
-		*i = *i + 1;
+		(*i)++;
 	}
 }
 

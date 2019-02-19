@@ -13,6 +13,26 @@
 #include "ft_printf.h"
 
 /*
+** If the string is null returns "(null)".
+*/
+
+char			*handle_null_string(void)
+{
+	char			*res;
+
+	if (!(res = (char*)malloc(7)))
+		exit(1);
+	res[0] = '(';
+	res[1] = 'n';
+	res[2] = 'u';
+	res[3] = 'l';
+	res[4] = 'l';
+	res[5] = ')';
+	res[6] = 0;
+	return (res);
+}
+
+/*
 ** `handle_string` receives a string and a parsed directive as inputs, does the
 ** proper formating.
 **
@@ -30,6 +50,11 @@ char			*handle_string(char *str, t_dir *cur_dir)
 	char			*res;
 	int				width_extension_len;
 
+	if (!str)
+	{
+		res = handle_null_string();
+		return (res);
+	}
 	if (cur_dir->precision != -1
 		&& ft_strlen(str) > (unsigned long)cur_dir->precision)
 		res = ft_strsub(str, 0, cur_dir->precision);

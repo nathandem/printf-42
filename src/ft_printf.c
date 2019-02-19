@@ -43,7 +43,7 @@ void			handle_dir(const char *dir, va_list *ap, int *pos, int *ret)
 
 	// eventually, free (no leak)
 	*pos += (cur_dir->len - 1);
-	*ret += (int)ft_strlen(str);
+	*ret += (cur_dir->type == 'c') ? 1 : (int)ft_strlen(str);
 	free(str);
 	free(cur_dir);
 	return ;

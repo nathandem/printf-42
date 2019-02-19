@@ -15,6 +15,10 @@
 // edge case: negative numbers
 char			*handle_precision(char *res, t_dir *cur_dir, int n_shape)
 {
+	int				res_len;
+	char			*tmp_str;
+	int				tmp_str_len;
+
 	res_len = (n_shape < 0) ? ft_strlen(res) - 1 : ft_strlen(res);
 	if (cur_dir->precision != -1)
 	{
@@ -41,8 +45,6 @@ char			*handle_precision(char *res, t_dir *cur_dir, int n_shape)
 char			*handle_integer(char *res, t_dir *cur_dir, int n_shape)
 {
 	int				res_len;
-	char			*tmp_str;
-	int				tmp_str_len;
 	int				width_extension_len;
 
 	res = handle_precision(res, cur_dir, n_shape);
@@ -60,8 +62,6 @@ char			*handle_integer(char *res, t_dir *cur_dir, int n_shape)
 	//
 	// ==> split this mess in 2: one fc for the signed values (`d`\`i`),
 	//     one fc for the conversions on which `#` may be applied: `o`, `x`, `X`
-
-	
 
 	if ((cur_dir->type == 'd' || cur_dir->type == 'i') && !cur_dir->zero)
 		res = handle_sign_mark(res, cur_dir, n_shape);

@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "libft.h"
+// to be removed when project is good enough
+# include <stdio.h>
 
 /*
 ** The type `t_dir` is meant to contain the result of a parser directive.
