@@ -12,6 +12,7 @@ SRC = ft_printf.c \
 	  handler_string.c \
 	  handler_integer.c \
 	  handler_float.c \
+	  handler_pourcent.c \
 	  handler_generics.c \
 	  int_to_str.c \
 	  dir_to_arg.c \

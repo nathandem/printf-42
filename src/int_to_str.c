@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 10:47:38 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/19 10:58:13 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/23 17:06:17 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char				*signed_dec_to_str(long long n, int size)
 	len = (n < 0) ? get_signed_base_len(n, 10) + 1 : get_signed_base_len(n, 10);
 	n_abs = get_n_abs(n, size);
 	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
+		exit(-1);
 	number[len--] = 0;
 	if (n < 0)
 		number[0] = '-';
@@ -189,7 +189,7 @@ char				*unsigned_to_str(t_ull n, int base, int size, int cap)
 	(size == 4) ? n = (unsigned long long)n : 0;
 	len = get_unsigned_base_len(n, base);
 	if (!(number = (char*)malloc(len + 1)))
-		exit(1);
+		exit(-1);
 	number[len--] = 0;
 	(n == 0) ? number[0] = '0' : 0;
 	while (n)

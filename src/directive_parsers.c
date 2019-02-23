@@ -6,11 +6,22 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:58:09 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/19 14:01:36 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/23 17:04:56 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void				clean_dir_from_unsupported_flags(t_dir *cur_dir)
+{
+	if (cur_dir->type == 'c' || cur_dir->type == 's' || cur_dir->type == 'p')
+		cur_dir->size = NONE;
+	if (cur_dir->type != 'f' && cur_dir->size == L)
+		cur_dir->size = NONE;
+	if (cur_dir->type == 'f' && (cur_dir->size == hh || cur_dir->size == h
+		|| cur_dir->size == ll))
+		cur_dir->size = NONE;
+}
 
 /*
 ** `initialize_a_dir` initializes a structure containing the result of the
@@ -25,7 +36,7 @@ t_dir				*initialize_a_dir(void)
 	t_dir				*cur_dir;
 
 	if (!(cur_dir = (t_dir*)malloc(sizeof(t_dir))))
-		exit(1);
+		exit(-1);
 	cur_dir->hash = 0;
 	cur_dir->zero = 0;
 	cur_dir->neg_sign = 0;
@@ -152,13 +163,17 @@ t_dir				*parse_dir(const char *str)
 	// handle type conversion
 	// possible values: csp diouxX f
 	// -> make the global array of struct to map type to a function
+	// `%` is a special case, not a real conversion but has to be taken 
+	// care of anyway...
 	if (str[i] == 'c' || str[i] == 's' || str[i] == 'p' || str[i] == 'd' ||
 		str[i] == 'i' || str[i] == 'o' || str[i] == 'u' || str[i] == 'x' ||
-		str[i] == 'X' || str[i] == 'f')
+		str[i] == 'X' || str[i] == 'f' || str[i] == '%')
 	{
 		cur_dir->type = str[i];
 		i++;
 	}
+
+	clean_dir_from_unsupported_flags(cur_dir);
 
 	cur_dir->len = i;
 

@@ -6,22 +6,18 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 09:26:03 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 14:46:02 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/23 17:05:50 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-/*
-** If the string is null returns "(null)".
-*/
-
-char			*handle_null_string(void)
+static char		*handle_null_string(t_dir *cur_dir)
 {
 	char			*res;
 
 	if (!(res = (char*)malloc(7)))
-		exit(1);
+		exit(-1);
 	res[0] = '(';
 	res[1] = 'n';
 	res[2] = 'u';
@@ -29,6 +25,20 @@ char			*handle_null_string(void)
 	res[4] = 'l';
 	res[5] = ')';
 	res[6] = 0;
+
+	if (ft_strlen(res) > (unsigned long)cur_dir->precision)
+		res = ft_strsub(res, 0, cur_dir->precision);
+	return (res);
+}
+
+static char		*handle_non_null_string(char *str, t_dir *cur_dir)
+{
+	char			*res;
+
+	if (ft_strlen(str) > (unsigned long)cur_dir->precision)
+		res = ft_strsub(str, 0, cur_dir->precision);
+	else
+		res = ft_strdup(str);
 	return (res);
 }
 
@@ -51,15 +61,9 @@ char			*handle_string(char *str, t_dir *cur_dir)
 	int				width_extension_len;
 
 	if (!str)
-	{
-		res = handle_null_string();
-		return (res);
-	}
-	if (cur_dir->precision != -1
-		&& ft_strlen(str) > (unsigned long)cur_dir->precision)
-		res = ft_strsub(str, 0, cur_dir->precision);
+		res = handle_null_string(cur_dir);
 	else
-		res = ft_strdup(str);
+		res = handle_non_null_string(str, cur_dir);
 
 	if (cur_dir->width != -1 && (unsigned long)cur_dir->width > ft_strlen(res))
 	{

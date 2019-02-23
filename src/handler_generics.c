@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 08:52:00 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/19 14:00:34 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/23 17:08:23 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,16 @@ char			*handle_sign_mark(char *res, t_dir *cur_dir, int n_shape)
 
 char			*handle_hash(char *res, t_dir *cur_dir, int n_shape)
 {
-	if (cur_dir->hash && n_shape)
+	if (cur_dir->hash)
 	{
-		if (cur_dir->type == 'o' && n_shape)
-			res = realloc_with_add_on_left(res, "0");
-		if ((cur_dir->type == 'x' && n_shape) || cur_dir->type == 'p')
+		if (cur_dir->type == 'o')
+		{
+			if (res == 0 || res[0] == '0')
+				res[0] = '0';
+			else
+				res = realloc_with_add_on_left(res, "0");
+		}
+		if (cur_dir->type == 'x' && n_shape)
 			res = realloc_with_add_on_left(res, "0x");
 		if (cur_dir->type == 'X' && n_shape)
 			res = realloc_with_add_on_left(res, "0X");

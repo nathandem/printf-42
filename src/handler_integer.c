@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 16:42:15 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/19 14:00:23 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/23 17:36:29 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,15 @@ char			*handle_integer(char *res, t_dir *cur_dir, int n_shape)
 	// ==> split this mess in 2: one fc for the signed values (`d`\`i`),
 	//     one fc for the conversions on which `#` may be applied: `o`, `x`, `X`
 
-	if ((cur_dir->type == 'd' || cur_dir->type == 'i') && !cur_dir->zero)
+	if ((cur_dir->type == 'd' || cur_dir->type == 'i')
+			&& (!cur_dir->zero || cur_dir->precision > -1))
 		res = handle_sign_mark(res, cur_dir, n_shape);
 
 	res_len = ft_strlen(res);
 	if (cur_dir->hash && cur_dir->type == 'o' && n_shape)
 		res_len += 1;
 	if ((cur_dir->hash && n_shape && (cur_dir->type == 'x'
-					|| cur_dir->type == 'X')) || cur_dir->type == 'p')
+			|| cur_dir->type == 'X')) || cur_dir->type == 'p')
 		res_len = res_len + 2;
 
 	width_extension_len = 0;
@@ -78,7 +79,9 @@ char			*handle_integer(char *res, t_dir *cur_dir, int n_shape)
 			&& cur_dir->width > cur_dir->precision)
 		width_extension_len = cur_dir->width - ((res_len > cur_dir->precision) ?
 			res_len : cur_dir->precision);
-	
+	if ((cur_dir->type == 'd' || cur_dir->type == 'i') && n_shape >= 0)
+		width_extension_len++;
+
 	if (!cur_dir->zero || cur_dir->precision != -1)
 		res = handle_hash(res, cur_dir, n_shape);
 	if ((cur_dir->type == 'd' || cur_dir->type == 'i') && cur_dir->zero

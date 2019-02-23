@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 10:35:29 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/19 13:38:19 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/23 13:23:02 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ char			*handle_string(char *str, t_dir *cur_dir);
 char			*handle_signed_integer(long long n, t_dir *cur_dir);
 char			*handle_unsigned_integer(unsigned long long n, t_dir *cur_dir);
 char			*handle_float(double f, t_dir *cur_dir);
+char			*handle_pourcent(t_dir *cur_dir);
 
 /*
 ** Having a write so much function just to hardcode the return value of
 ** stdarg is a shame...
 */
 
-char			*char_dir_to_str(va_list *ap, t_dir *cur_dir);
 char			*str_dir_to_str(va_list *ap, t_dir *cur_dir);
 char			*address_dir_to_str(va_list *ap, t_dir *cur_dir);
 

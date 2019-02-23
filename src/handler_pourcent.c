@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler_char.c                                     :+:      :+:    :+:   */
+/*   handler_pourcent.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/18 09:25:36 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/23 17:05:21 by nde-maes         ###   ########.fr       */
+/*   Created: 2019/02/23 13:06:31 by nde-maes          #+#    #+#             */
+/*   Updated: 2019/02/23 17:05:34 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char			*handle_char(char c, t_dir *cur_dir)
+char			*handle_pourcent(t_dir *cur_dir)
 {
 	char			*res;
 	int				width_extension_len;
 
 	if (!(res = (char*)malloc(2)))
 		exit(-1);
-	res[0] = c;
+	res[0] = '%';
 	res[1] = 0;
 
 	if (cur_dir->width > 1)

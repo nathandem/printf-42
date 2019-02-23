@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 17:34:27 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/18 10:55:03 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/23 11:50:24 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 ** This is a disaster of conciseness.
 */
 
-t_d2h			g_d2h[36] =
+t_d2h			g_d2h[35] =
 {
-	{'c', NONE, &char_dir_to_str},
 	{'s', NONE, &str_dir_to_str},
 	{'p', NONE, &address_dir_to_str},
 
