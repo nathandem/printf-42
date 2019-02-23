@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 08:52:00 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/23 17:08:23 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/23 19:07:51 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,34 @@ char			*handle_width(char *res, t_dir *cur_dir, int tmp_len)
 		res = realloc_with_add_on_left(res, tmp_str);
 	}
 	free(tmp_str);
+	return (res);
+}
+
+// edge case: negative numbers
+char			*handle_precision(char *res, t_dir *cur_dir, int n_shape)
+{
+	int				res_len;
+	char			*tmp_str;
+	int				tmp_str_len;
+
+	res_len = (n_shape < 0) ? ft_strlen(res) - 1 : ft_strlen(res);
+	if (cur_dir->precision != -1)
+	{
+		if (cur_dir->precision == 0 && n_shape == 0)
+		{
+			free(res);
+			res = create_str_of_len_char(0, 1);
+		}
+		if (cur_dir->precision > res_len)
+		{
+			tmp_str_len = cur_dir->precision - res_len;
+			if (n_shape < 0)
+				res = ft_strsub(res, 1, ft_strlen(res) - 1);
+			tmp_str = create_str_of_len_char('0', tmp_str_len);
+			res = realloc_with_add_on_left(res, tmp_str);
+			res = (n_shape < 0) ? realloc_with_add_on_left(res, "-") : res;
+			free(tmp_str);
+		}
+	}
 	return (res);
 }
