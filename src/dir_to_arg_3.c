@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler_char.c                                     :+:      :+:    :+:   */
+/*   dir_to_arg_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/18 09:25:36 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/25 09:45:40 by nde-maes         ###   ########.fr       */
+/*   Created: 2019/02/25 08:45:28 by nde-maes          #+#    #+#             */
+/*   Updated: 2019/02/25 10:26:24 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char			*handle_char(char c, t_dir *cur_dir)
+char			*unsigned_long_dir_to_str(va_list *ap, t_dir *cur_dir)
 {
-	char			*res;
-	int				width_extension_len;
+	return (handle_unsigned_integer((t_ul)va_arg(*ap, t_ul), cur_dir));
+}
 
-	if (!(res = (char*)malloc(2)))
-		exit(-1);
-	res[0] = c;
-	res[1] = 0;
-	if (cur_dir->width > 1)
-	{
-		width_extension_len = cur_dir->width - 1;
-		res = handle_width(res, cur_dir, width_extension_len);
-	}
-	return (res);
+char			*unsigned_long_long_dir_to_str(va_list *ap, t_dir *cur_dir)
+{
+	return (handle_unsigned_integer((t_ull)va_arg(*ap, t_ull), cur_dir));
+}
+
+char			*float_dir_to_str(va_list *ap, t_dir *cur_dir)
+{
+	return (handle_float((double)va_arg(*ap, t_ull), cur_dir));
 }

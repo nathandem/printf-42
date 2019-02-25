@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 13:29:27 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/23 17:07:06 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/25 12:10:31 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ char			*create_str_of_len_char(char c, int len)
 ** with it.
 */
 
-char		*realloc_with_add_on_left(char *str, char *left_str)
+char			*realloc_with_add_on_left(char *str, char *left_str)
 {
-	char		*ns;
+	char			*ns;
 
 	if (!str || !left_str)
 		exit(-1);
@@ -56,9 +56,9 @@ char		*realloc_with_add_on_left(char *str, char *left_str)
 ** except that instead of adding a string on the left, it adds it on the right.
 */
 
-char		*realloc_with_add_on_right(char *str, char *right_str)
+char			*realloc_with_add_on_right(char *str, char *right_str)
 {
-	char		*ns;
+	char			*ns;
 
 	if (!str || !right_str)
 		exit(-1);
@@ -76,13 +76,12 @@ char		*realloc_with_add_on_right(char *str, char *right_str)
 ** Note: the merged strings don't freed. Free them yourself is if needed.
 */
 
-// assume stdarg.h is included in the header file of the lib
-char		*ft_strnjoin(int nb_args, ...)
+char			*ft_strnjoin(int nb_args, ...)
 {
-	va_list		ap;
-	int			i;
-	char		*str;
-	char		*right;
+	va_list			ap;
+	int				i;
+	char			*str;
+	char			*right;
 
 	if (!(str = (char*)malloc(1)))
 		exit(-1);
@@ -96,4 +95,15 @@ char		*ft_strnjoin(int nb_args, ...)
 	}
 	va_end(ap);
 	return (str);
+}
+
+/*
+** Just a trick on the Norm to get ft_printf fits in 25 lines max.
+** It's ugly, I know.
+*/
+
+void			putchar_and_increment_ret(char c, int *ret)
+{
+	ft_putchar(c);
+	(*ret)++;
 }

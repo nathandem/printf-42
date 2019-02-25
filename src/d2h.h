@@ -6,11 +6,14 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 17:34:27 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/23 11:50:24 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/25 12:12:18 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef FT_D2H_H
+# define FT_D2H_H
+
+# include "ft_printf.h"
 
 /*
 ** This is a disaster of conciseness.
@@ -61,3 +64,5 @@ t_d2h			g_d2h[35] =
 	{'f', l, &float_dir_to_str},
 	{'f', L, &float_dir_to_str},
 };
+
+#endif

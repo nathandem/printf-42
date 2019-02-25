@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 09:26:03 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/23 17:05:50 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/25 12:08:51 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static char		*handle_null_string(t_dir *cur_dir)
 	res[4] = 'l';
 	res[5] = ')';
 	res[6] = 0;
-
 	if (ft_strlen(res) > (unsigned long)cur_dir->precision)
 		res = ft_strsub(res, 0, cur_dir->precision);
 	return (res);
@@ -64,7 +63,6 @@ char			*handle_string(char *str, t_dir *cur_dir)
 		res = handle_null_string(cur_dir);
 	else
 		res = handle_non_null_string(str, cur_dir);
-
 	if (cur_dir->width != -1 && (unsigned long)cur_dir->width > ft_strlen(res))
 	{
 		width_extension_len = cur_dir->width - ft_strlen(res);

@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 13:06:31 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/23 17:05:34 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/25 10:12:05 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char			*handle_pourcent(t_dir *cur_dir)
 		exit(-1);
 	res[0] = '%';
 	res[1] = 0;
-
 	if (cur_dir->width > 1)
 	{
 		width_extension_len = cur_dir->width - 1;

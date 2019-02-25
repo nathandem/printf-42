@@ -7,15 +7,20 @@ NAME = libftprintf.a
 CC = clang
 FLAGS = -Wall -Wextra -Werror
 SRC = ft_printf.c \
-	  directive_parsers.c \
+	  directive_parsers_1.c \
+	  directive_parsers_2.c \
 	  handler_char.c \
 	  handler_string.c \
-	  handler_integer.c \
+	  handler_signed_int.c \
+	  handler_unsigned_int.c \
 	  handler_float.c \
 	  handler_pourcent.c \
 	  handler_generics.c \
-	  int_to_str.c \
-	  dir_to_arg.c \
+	  signed_int_to_str.c \
+	  unsigned_int_to_str.c \
+	  dir_to_arg_1.c \
+	  dir_to_arg_2.c \
+	  dir_to_arg_3.c \
 	  utils.c \
 	  \
 	  libft/ft_atoi.c \
