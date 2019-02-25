@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 09:26:03 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/25 12:08:51 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/25 18:08:05 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ static char		*handle_null_string(t_dir *cur_dir)
 	return (res);
 }
 
+/*
+** If cur_dir->precision == -1, after cast into unsigned long, it's a big value
+** so we surely go in the `else` branch of the statement.
+*/
+
 static char		*handle_non_null_string(char *str, t_dir *cur_dir)
 {
 	char			*res;
@@ -40,19 +45,6 @@ static char		*handle_non_null_string(char *str, t_dir *cur_dir)
 		res = ft_strdup(str);
 	return (res);
 }
-
-/*
-** `handle_string` receives a string and a parsed directive as inputs, does the
-** proper formating.
-**
-** Note: because the util `ft_strlen` returns an unsigned value, it can't be
-** compared to a signed one. Most compilers perform an implicit cast of the
-** signed value into an unsigned, which compilely twist the result. Here, it
-** meant that cur_dir->width with its default value of -1 was bigger than any
-** reasonable length of `ft_strlen(char*)`. Had to add `cur_dir->width != -1`
-** to make the signed value which would be compared wouldn't end up in the upper
-** range of the unsigned values.
-*/
 
 char			*handle_string(char *str, t_dir *cur_dir)
 {

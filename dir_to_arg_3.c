@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 08:45:28 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/25 10:26:24 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/25 17:52:21 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ char			*unsigned_long_long_dir_to_str(va_list *ap, t_dir *cur_dir)
 
 char			*float_dir_to_str(va_list *ap, t_dir *cur_dir)
 {
-	return (handle_float((double)va_arg(*ap, t_ull), cur_dir));
+	return (handle_float((double)va_arg(*ap, double), cur_dir));
 }

@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 11:22:59 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/25 15:00:18 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/25 18:09:00 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char		*handle_signed_flags_zero(char *res, t_dir *cur_dir, int n)
 	if (cur_dir->width > res_len)
 	{
 		width_extension_len = cur_dir->width - res_len;
-		if (n < 0 || (n > 0 && (cur_dir->pos_sign || cur_dir->space)))
+		if (n < 0 || (cur_dir->pos_sign || cur_dir->space))
 			width_extension_len--;
 		res = handle_width(res, cur_dir, width_extension_len);
 	}
@@ -79,7 +79,7 @@ char			*handle_signed_integer(long long n, t_dir *cur_dir)
 		n_shape = (n > 0) ? 1 : -1;
 	res = signed_dec_to_str(n);
 	res = handle_precision(res, cur_dir, n_shape);
-	if (cur_dir->zero && cur_dir->precision == -1)
+	if (cur_dir->zero && !cur_dir->neg_sign && cur_dir->precision == -1)
 		res = handle_signed_flags_zero(res, cur_dir, n_shape);
 	else
 		res = handle_signed_flags(res, cur_dir, n_shape);

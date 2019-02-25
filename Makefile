@@ -42,7 +42,6 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -C libft
 	ar rcs $@ $^
 
 %.o: %.c

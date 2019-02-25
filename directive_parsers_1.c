@@ -6,7 +6,7 @@
 /*   By: nde-maes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:58:09 by nde-maes          #+#    #+#             */
-/*   Updated: 2019/02/25 12:08:33 by nde-maes         ###   ########.fr       */
+/*   Updated: 2019/02/25 18:17:26 by nde-maes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void				clean_dir_from_unsupported_flags(t_dir *cur_dir)
 {
 	if (cur_dir->type == 'c' || cur_dir->type == 's' || cur_dir->type == 'p')
 		cur_dir->size = NONE;
+	if (cur_dir->type == 'c')
+		cur_dir->precision = -1;
 	if (cur_dir->type != 'f' && cur_dir->size == L)
 		cur_dir->size = NONE;
 	if (cur_dir->type == 'f' && (cur_dir->size == hh || cur_dir->size == h
